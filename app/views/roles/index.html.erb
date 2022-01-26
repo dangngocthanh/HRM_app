@@ -1,0 +1,11 @@
+<h1>All users</h1>
+<table>
+  <% @roles.each do |role| %>
+    <tr>
+      <td><%= role.name %></td>
+      <td><%= link_to 'Edit', { :action => 'edit', :id => role.id} %></td>
+      <td><%= link_to 'Delete', role, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Add role', { :action => 'new'} %>
