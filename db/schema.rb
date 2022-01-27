@@ -21,9 +21,11 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.bigint "department_id"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "fk_rails_bca7ec3858"
+    t.index ["user_id"], name: "fk_rails_b872a6760a"
   end
 
   create_table "roles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
   end
 
   add_foreign_key "projects", "departments"
+  add_foreign_key "projects", "users"
   add_foreign_key "users", "roles"
   add_foreign_key "users_departments", "departments"
   add_foreign_key "users_departments", "users"
