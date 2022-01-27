@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     delete "sign_out" => "devise/sessions#destroy"
   end
 
-  resources 'roles'
+
 end
