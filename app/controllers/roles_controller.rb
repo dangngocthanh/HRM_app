@@ -1,4 +1,5 @@
 class RolesController < ApplicationController
+  before_action :admin, only: [:new, :edit, :create, :update, :destroy]
 
   def index
     @roles = Role.all
@@ -32,6 +33,16 @@ class RolesController < ApplicationController
     end
   end
 
+  private
+
+  def admin
+    user = current_user
+    p user
+    if user.id == 1
+    else
+      redirect_to '/users/sign_in'
+    end
+  end
 end
 
 
