@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   as :user do
-    delete 'sign_out' => "devise/sessions#destroy"
+    get 'sign_out' => "devise/sessions#destroy"
   end
   devise_scope :user do
     authenticated :user do
