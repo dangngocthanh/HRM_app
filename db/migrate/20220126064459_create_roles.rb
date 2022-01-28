@@ -8,8 +8,7 @@ class CreateRoles < ActiveRecord::Migration[7.0]
 
       Role.create :name => "Admin"
       Role.create :name => "HR"
-      Role.create :name => "PM"
-      Role.create :name => "Employee"
+      Role.create :name => "Dev"
   end
 
 end

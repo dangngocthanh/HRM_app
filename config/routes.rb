@@ -8,18 +8,20 @@ Rails.application.routes.draw do
   # end
 
   devise_for :users
-
+  as :user do
+    delete 'sign_out' => "devise/sessions#destroy"
+  end
   devise_scope :user do
     authenticated :user do
       root 'departments#index', as: :authenticated_root
       resources 'departments'
       resources 'projects'
+
     end
 
     unauthenticated do
       root 'devise/sessions#new', as: :unauthenticated_root
     end
   end
-
 
 end

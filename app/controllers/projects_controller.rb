@@ -2,10 +2,13 @@ class ProjectsController < ApplicationController
   before_action :admin, only: [:create, :new]
 
   def new
+    @departments = Department.all
   end
 
   def create
-    @project = Project.new
+    department_id = params['project']['department_id']
+    p department_id
+    @project = Project.new(params_project)
   end
 
   private
@@ -18,4 +21,5 @@ class ProjectsController < ApplicationController
       redirect_to '/users/sign_in'
     end
   end
+
 end
