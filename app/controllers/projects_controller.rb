@@ -3,12 +3,17 @@ class ProjectsController < ApplicationController
 
   def new
     @departments = Department.all
+    @project = Project.new
   end
 
   def create
     department_id = params['project']['department_id']
-    p department_id
-    @project = Project.new(params_project)
+    @department = Department.find(department_id)
+    user_id = @department.user_id
+    p 123
+    @project = Project.new(name: params['project']['name'],department_id: department_id, user_id: user_id, status: false)
+    if @project.save
+    end
   end
 
   private
