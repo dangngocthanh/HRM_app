@@ -6,11 +6,15 @@ class ProjectsController < ApplicationController
   end
 
   def new
+    @departments = Department.all
     @project = Project.new
   end
 
   def create
-    @project = Project.new(name: params['project']['name'] ,user_id:, department_id:)
+    department_id = params['project']['department_id']
+    @department = Department.find(department_id)
+    user_id = @department.user_id
+    @project = Project.new(name: params['project']['name'],department_id: department_id, user_id: user_id, status: false)
     if @project.save
       redirect_to action: :index
     end

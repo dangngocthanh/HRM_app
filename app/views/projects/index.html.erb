@@ -1,1 +1,12 @@
-xin chao
+<%=render "layouts/navbar" %>
+<h1>All Project</h1>
+<table>
+  <% @projects.each do |project| %>
+    <tr>
+      <td><%= project.name %></td>
+<!--      <td><%#= link_to 'Edit', { :action => 'edit', :id => department.id} %></td>-->
+<!--      <td><%#= link_to 'Delete', department, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>-->
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Add project', { :action => 'new'} %>
