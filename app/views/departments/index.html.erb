@@ -5,7 +5,7 @@
     <tr>
       <td><%= department.name %></td>
       <td><%= link_to 'Edit', { :action => 'edit', :id => department.id} %></td>
-      <td><%= button_to 'Delete', department, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>
+      <td><%= link_to 'Delete', department, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>
     </tr>
   <% end %>
 </table>

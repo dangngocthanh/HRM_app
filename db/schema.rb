@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
     t.string "dob"
     t.string "address"
     t.bigint "role_id"
+    t.boolean "has_department", default: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at", precision: 6
     t.datetime "remember_created_at", precision: 6

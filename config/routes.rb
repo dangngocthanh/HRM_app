@@ -13,10 +13,12 @@ Rails.application.routes.draw do
   end
   devise_scope :user do
     authenticated :user do
-      root to: 'projects#index', as: :authenticated_root
+      root 'projects#index', as: :authenticated_root
       resources 'departments'
       resources 'projects'
-
+      resources 'users_projects'
+      resources 'users'
+      get 'users_projects_detail' => 'projects#users_projects_detail'
     end
 
     unauthenticated do
