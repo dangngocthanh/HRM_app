@@ -8,6 +8,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       t.column :dob, :string
       t.column :address, :string
       t.column :role_id, :bigint
+      t.column :has_department, :boolean, default: false
       t.foreign_key :roles, index: true, foreign_key: true
       ## Recoverable
       t.string :reset_password_token
