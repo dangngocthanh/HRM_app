@@ -17,7 +17,7 @@ class DepartmentsController < ApplicationController
   # end
 
   def new
-    @users = Information.where('role_id != 2').where(has_department: false)
+    @users = Information.where('role_id != 2 and role_id != 1').where(has_department: false)
     @users = RoleToUser(@users)
     @department = Department.new
   end
