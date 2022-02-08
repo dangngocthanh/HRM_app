@@ -1,0 +1,8 @@
+<h2>Thông tin cá nhân</h2>
+<strong>Name: </strong> <%= current_user.information.name %><br/>
+<strong>Email: </strong> <%= User.find(current_user.information.user_id).email %><br/>
+<strong>Role: </strong> <%= Role.find(current_user.information.role_id).name %><br/>
+<strong>Birthday: </strong> <%= current_user.information.date_of_birth.strftime("%d/%m/%Y") %><br/>
+<strong>Address: </strong> <%= current_user.information.address %><br/>
+<strong>On Board: </strong> <%= current_user.information.created_at.strftime("%d/%m/%Y") %><br/>
+

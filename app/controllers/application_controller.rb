@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
     redirect_to request.referrer || new_user_session_path
   end
 
-
   protected
   def configure_permitted_parameters
     added_attrs = [:email, :password, :password_confirmation, information_attributes: [:name, :address, :date_of_birth, :phone, :role_id]]

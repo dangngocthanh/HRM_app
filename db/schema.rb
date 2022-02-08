@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2022_02_08_034516) do
 
-  create_table "departments", charset: "utf8mb4", force: :cascade do |t|
+  create_table "departments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_034516) do
     t.index ["user_id"], name: "fk_rails_8676210a0b"
   end
 
-  create_table "information", charset: "utf8mb4", force: :cascade do |t|
+  create_table "information", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.string "address"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_034516) do
     t.index ["user_id"], name: "fk_rails_f3f61a839b"
   end
 
-  create_table "projects", charset: "utf8mb4", force: :cascade do |t|
+  create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.bigint "department_id"
     t.bigint "user_id"
@@ -45,13 +45,13 @@ ActiveRecord::Schema.define(version: 2022_02_08_034516) do
     t.index ["user_id"], name: "fk_rails_b872a6760a"
   end
 
-  create_table "roles", charset: "utf8mb4", force: :cascade do |t|
+  create_table "roles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", charset: "utf8mb4", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_034516) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "users_departments", charset: "utf8mb4", force: :cascade do |t|
+  create_table "users_departments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "department_id"
     t.datetime "created_at", precision: 6, null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_034516) do
     t.index ["user_id"], name: "fk_rails_cbafd1e5ff"
   end
 
-  create_table "users_projects", charset: "utf8mb4", force: :cascade do |t|
+  create_table "users_projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false

@@ -12,6 +12,10 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  # def show
+  #   @department = Department.find(params[:id])
+  # end
+
   def new
     @users = Information.where('role_id != 2').where(has_department: false)
     @users = RoleToUser(@users)

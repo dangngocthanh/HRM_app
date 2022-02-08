@@ -134,6 +134,7 @@
         <option value="migration" />
         <option value="model" />
         <option value="mongoid:devise" />
+        <option value="nested_form:install" />
         <option value="pundit:install" />
         <option value="pundit:policy" />
         <option value="resource" />
@@ -176,6 +177,7 @@
         <option value="migration" />
         <option value="model" />
         <option value="mongoid:devise" />
+        <option value="nested_form:install" />
         <option value="pundit:install" />
         <option value="pundit:policy" />
         <option value="resource" />
