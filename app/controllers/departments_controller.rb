@@ -1,11 +1,23 @@
 class DepartmentsController < ApplicationController
+  before_action :IsAdmin?, only: [:new, :create]
+
   def index
-    @departments = Department.all
-    @user = current_user
+    if current_user.information.role_id == 1 || current_user.information.role_id == 2
+      @departments = Department.all
+    else
+      @departments = UsersDepartment.where(user_id: current_user.id)
+      if @departments[0] != nil
+        @department = Department.find(@departments[0].department_id)
+      end
+    end
   end
 
+  # def show
+  #   @department = Department.find(params[:id])
+  # end
+
   def new
-    @users = User.where('role_id = 4')
+    @users = Information.where('role_id != 2').where(has_department: false)
     @department = Department.new
   end
 
@@ -39,18 +51,19 @@ class DepartmentsController < ApplicationController
   end
 
   private
+
   def add_user_department (user_id)
-    id = Department.all.order('id desc')
-    id = id.limit(1)
-    id = id[0].id
+    id = Department.last
+    id = id.id
     @users_department = UsersDepartment.new(department_id: id, user_id: user_id)
     @users_department.save
   end
 
   def update_role_PM (user_id)
-    @user = User.find(user_id)
+    @user = Information.find(user_id)
     @user.update(role_id: 3)
-    @user.save
+    @user.update(has_department: true)
+    # @user.save
   end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_064955) do
+ActiveRecord::Schema.define(version: 2022_02_08_034516) do
 
   create_table "departments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -20,11 +20,25 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
     t.index ["user_id"], name: "fk_rails_8676210a0b"
   end
 
+  create_table "information", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.string "address"
+    t.datetime "date_of_birth", precision: 6
+    t.string "phone"
+    t.boolean "has_department", default: false
+    t.bigint "role_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["role_id"], name: "fk_rails_7281eeb3a9"
+    t.index ["user_id"], name: "fk_rails_f3f61a839b"
+  end
+
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.bigint "department_id"
     t.bigint "user_id"
-    t.string "status"
+    t.boolean "status", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "fk_rails_bca7ec3858"
@@ -40,11 +54,6 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "name"
-    t.string "dob"
-    t.string "address"
-    t.bigint "role_id"
-    t.boolean "has_department", default: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at", precision: 6
     t.datetime "remember_created_at", precision: 6
@@ -57,7 +66,6 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_id"], name: "fk_rails_642f17018b"
   end
 
   create_table "users_departments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -79,9 +87,10 @@ ActiveRecord::Schema.define(version: 2022_01_26_064955) do
   end
 
   add_foreign_key "departments", "users"
+  add_foreign_key "information", "roles"
+  add_foreign_key "information", "users"
   add_foreign_key "projects", "departments"
   add_foreign_key "projects", "users"
-  add_foreign_key "users", "roles"
   add_foreign_key "users_departments", "departments"
   add_foreign_key "users_departments", "users"
   add_foreign_key "users_projects", "projects"

@@ -1,2 +1,0 @@
-class ProjectRole < ApplicationRecord
-end
