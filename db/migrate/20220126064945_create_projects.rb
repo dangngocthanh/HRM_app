@@ -4,7 +4,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.column :name, :string
       t.column :department_id,:bigint
       t.column :user_id, :bigint
-      t.column :status, :string
+      t.column :status, :boolean, default: false
       t.foreign_key :departments, foreign_key: true
       t.foreign_key :users, foreign_key: true
       t.timestamps

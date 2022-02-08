@@ -1,19 +1,19 @@
 Rails.application.routes.draw do
 
-  # devise_for :users
-  # as :user do
-  #   get "sign_in" => "devise/sessions#new"
-  #   post "sign_in" => "devise/sessions#create"
-  #   delete "sign_out" => "devise/sessions#destroy"
-  # end
-
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
   as :user do
-    get 'sign_out' => "devise/sessions#destroy"
+    get "sign_in" => "users/sessions#new"
+    post "sign_in" => "users/sessions#create"
+    get "sign_out" => "users/sessions#destroy"
+    get "sign_up" => "users/registrations#new"
+    post "sign_up" => "users/registrations#create"
   end
   devise_scope :user do
     authenticated :user do
-      root 'projects#index', as: :authenticated_root
+      root 'departments#index', as: :authenticated_root
       resources 'departments'
       resources 'projects'
       resources 'users_projects'
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
 
     unauthenticated do
-      root 'devise/sessions#new', as: :unauthenticated_root
+      root 'users/sessions#new', as: :unauthenticated_root
     end
   end
 
