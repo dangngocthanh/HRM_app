@@ -1,4 +1,19 @@
 <%=render "layouts/navbar" %>
 <% provide(:button_text, 'Update department') %>
 <h1>Edit Department</h1>
+<hr>
+<h3>Current PM</h3>
+
+<div>
+  <p>Email: <%= @current_PM.email %></p>
+</div>
+
+<div>
+  <p>Name: <%= @current_PM.information.name %></p>
+</div>
+
+<div style="margin-bottom: 2%">
+  <p>Phone: <%= @current_PM.information.phone %></p>
+</div>
+
 <%= render 'form' %>

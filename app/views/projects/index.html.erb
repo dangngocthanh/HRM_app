@@ -1,15 +1,19 @@
-<%# @projects.each do |project| %>
-<!--  <p><%#= link_to project.name, {:action => 'users_projects_detail', :id => project.id} %>(<%#= User.find(project.id).email %>)</p>-->
-<%# end %>
+
 <%=render "layouts/navbar" %>
-<h1>All Project</h1>
-<table>
-  <% @projects.each do |project| %>
-    <tr>
-      <td><%= project.name %></td>
-<!--      <td><%#= link_to 'Edit', { :action => 'edit', :id => department.id} %></td>-->
-<!--      <td><%#= link_to 'Delete', department, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>-->
-    </tr>
-  <% end %>
-</table>
-<%= link_to 'Add project', { :action => 'new'} %>
+<h2><%= Department.find(session[:department_id]).name %>'s projects</h2>
+<% @projects.each do |project| %>
+  <table>
+    <% if project.status != '1' %>
+      <tr>
+        <td><%= link_to project.name, { :action => 'users_projects_detail', :id => project.id } %>
+          (<%= User.find(project.user_id).email %>)
+        </td>
+        <% if current_user.information.role_id == 1 || current_user.information.role_id == 3 %>
+          <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %></td>
+          <td><%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+<%= link_to 'Back', '/' %>
