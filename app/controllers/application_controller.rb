@@ -26,4 +26,13 @@ class ApplicationController < ActionController::Base
       redirect_to '/'
     end
   end
+
+  def RoleToUser users
+    @users = []
+    users.each do |user|
+      user = User.where(id: user.user_id)
+      @users.push(user[0])
+    end
+    return @users
+  end
 end

@@ -1,14 +1,15 @@
 class ProjectsController < ApplicationController
-  before_action :admin, only: [:create, :new]
+  before_action :IsAdmin?, only: [:create, :new]
+  before_action :admin_or_PM, only: [:change_leader, :done_project, :update_leader]
 
   def index
     user = current_user
-    if user.role_id == 3
-      department = Department.where(user_id: user.id)
-      department_id = department[0].id
-      @projects = Project.where(department_id: department_id)
+    if user.information.role_id == 4
+      @projects = UsersProject.where(user_id: user.id)
     else
-      @projects = UsersProject.where(user_id: user.role_id)
+      if user.information.role_id < 4
+        @projects = Project.where(department_id: session[:department_id])
+      end
     end
   end
 
@@ -32,16 +33,30 @@ class ProjectsController < ApplicationController
     redirect_to users_projects_path
   end
 
-  private
-
-  def admin
-    user = current_user
-    p user
-    if user.id = 1
-    else
-      redirect_to '/users/sign_in'
+  def change_leader
+    @project_id = params[:id]
+    @users = UsersDepartment.where(department_id: session[:department_id])
+    @leader = []
+    @users.each do |user|
+      @leader.push(Information.where(user_id: user.user_id))
     end
+    project = Project.find(params[:id])
+    @current_leader = User.find(project.user_id)
   end
+
+  def update_leader
+    @project_change = Project.find(params[:id])
+    @project_change.update(user_id: params['project']['user_id'])
+  end
+
+  def done_project
+    @project = Project.find(params[:id])
+    @project.update(status: true)
+    @project.save
+    redirect_to action: :index
+  end
+
+  private
 
   def add_user_to_users_projects(user_id)
     id = Project.all.order('id desc')
@@ -51,4 +66,11 @@ class ProjectsController < ApplicationController
     @users_department.save
   end
 
+  def admin_or_PM
+    user = current_user
+    if user.information.role_id == 1 || user.information.role_id == 3
+    else
+      redirect_to action: :index
+    end
+  end
 end

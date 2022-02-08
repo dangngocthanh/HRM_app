@@ -1,13 +1,29 @@
 <h1>All department</h1>
-<table>
-  <% @departments.each do |department| %>
-    <tr>
-      <td><%= department.name %></td>
-      <td><%= link_to 'Edit', { :action => 'edit', :id => department.id} %></td>
-      <td><%= link_to 'Delete', department, :method => :delete ,:data => {:confirm => "You Sure?"}%></td>
-    </tr>
+<% if current_user.information.role_id < 3 %>
+  <table>
+    <% @departments.each do |department| %>
+      <tr>
+        <td><%= link_to department.name, { :action => 'click', :id => department.id } %></td>
+        <td> PM: <%= Information.find(department.user_id).name %></td>
+        <% if current_user.information.role_id == 1 %>
+          <td><%= link_to 'Edit', { :action => 'edit', :id => department.id } %></td>
+<!--          <td><%#= link_to 'Delete', { :action => 'destroy', :id => department.id }, :method => :delete, :data => { :confirm => "You Sure?" } %></td>-->
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+  <%= link_to 'Add department', { :action => 'new' } %>
+<% else %>
+  <% if @departments[0] != nil %>
+    <table>
+      <tr>
+        <td><%= link_to @department.name, { :action => 'click', :id => @department.id } %></td>
+      </tr>
+    </table>
+  <% else %>
+    <h1> You do not have a department </h1>
   <% end %>
-</table>
-<%= link_to 'Add department', { :action => 'new'} %>
+<% end %>
+
 <%= link_to "Sign out", sign_out_path %>
-<%= @user.id %>
+
