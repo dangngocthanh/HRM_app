@@ -35,18 +35,20 @@ class ProjectsController < ApplicationController
 
   def change_leader
     @project_id = params[:id]
+    session[:project_update_id] = @project_id
     @users = UsersDepartment.where(department_id: session[:department_id])
     @leader = []
     @users.each do |user|
-      @leader.push(Information.where(user_id: user.user_id))
+      @leader.push(User.where(id: user.user_id)[0])
     end
     project = Project.find(params[:id])
     @current_leader = User.find(project.user_id)
   end
 
   def update_leader
-    @project_change = Project.find(params[:id])
-    @project_change.update(user_id: params['project']['user_id'])
+    @project_change = Project.find(session[:project_update_id])
+    p'asdasd'
+    @project_change.update(user_id: params['user_id'])
   end
 
   def done_project

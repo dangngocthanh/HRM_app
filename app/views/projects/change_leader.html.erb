@@ -1,0 +1,9 @@
+<h1>Change leader</h1>
+<%= form_with(model: @project_change, local: true) do |f| %>
+  <p>Name: <%= @current_leader.information.name %></p>
+  <p>Email: <%= @current_leader.email %></p>
+  <%= f.label :user_id %>
+  <%= f.collection_select(:user_id, @leader, :id, :email, prompt: true) %>
+  <%= f.hidden_field :id => @project_id%>
+  <%= f.submit 'Change', class: "btn btn-primary" %>
+<% end %>
