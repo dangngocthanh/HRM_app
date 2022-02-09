@@ -1,5 +1,5 @@
 class DepartmentsController < ApplicationController
-  before_action :IsAdmin?, only: [:new, :create, :destroy]
+  # before_action :IsAdmin?, only: [:new, :create, :destroy]
 
   def index
     if current_user.information.role_id == 1 || current_user.information.role_id == 2
@@ -20,6 +20,7 @@ class DepartmentsController < ApplicationController
     @users = Information.where('role_id != 2 and role_id != 1').where(has_department: false)
     @users = RoleToUser(@users)
     @department = Department.new
+    authorize @department
   end
 
   def create

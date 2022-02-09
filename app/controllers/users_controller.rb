@@ -9,6 +9,6 @@ class UsersController < ApplicationController
   end
 
   def info
-
+    authorize @user
   end
 end

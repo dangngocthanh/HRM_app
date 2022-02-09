@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <span class="nav-link nav-link dropdown-toggle navbarDropdown "  role="button" data-toggle="dropdown" aria-expanded="false"><%= current_user.information.name %>(<%= Role.find(current_user.information.role_id).name%>)</span>
+        <span class="nav-link nav-link dropdown-toggle navbarDropdown "  role="button" data-toggle="dropdown" aria-expanded="false"><%= current_user.information.name %>(<%= current_user.information.role_id %>)</span>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to 'Profile', user_profile_path,class: "dropdown-item" %>
           <div class="dropdown-divider"></div>
