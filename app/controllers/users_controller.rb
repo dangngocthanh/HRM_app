@@ -1,4 +1,12 @@
 class UsersController < ApplicationController
+  def edit
+    @user = Information.where(user_id: current_user.id)
+  end
+
+  def update
+    @user = Information.where(user_id: current_user.id)
+    # @user.update(params)
+  end
 
   def index
     @users = User.all
@@ -8,7 +16,4 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def info
-
-  end
 end

@@ -4,5 +4,7 @@
 <strong>Role: </strong> <%= Role.find(current_user.information.role_id).name %><br/>
 <strong>Birthday: </strong> <%= current_user.information.date_of_birth.strftime("%d/%m/%Y") %><br/>
 <strong>Address: </strong> <%= current_user.information.address %><br/>
+<strong>Phone: </strong> <%= current_user.information.phone %><br/>
 <strong>On Board: </strong> <%= current_user.information.created_at.strftime("%d/%m/%Y") %><br/>
+<%= button_to 'Edit information', edit_profile_path(current_user.id), :method => :get %>
 

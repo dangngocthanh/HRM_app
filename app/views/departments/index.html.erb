@@ -1,4 +1,4 @@
-<%=render "layouts/navbar" %>
+<%= render "layouts/navbar" %>
 <h1>All department</h1>
 <% if current_user.information.role_id < 3 %>
   <table>
@@ -8,7 +8,7 @@
         <td> PM: <%= Information.find(department.user_id).name %></td>
         <% if current_user.information.role_id == 1 %>
           <td><%= link_to 'Edit', { :action => 'edit', :id => department.id } %></td>
-<!--          <td><%#= link_to 'Delete', { :action => 'destroy', :id => department.id }, :method => :delete, :data => { :confirm => "You Sure?" } %></td>-->
+          <!--          <td><%#= link_to 'Delete', { :action => 'destroy', :id => department.id }, :method => :delete, :data => { :confirm => "You Sure?" } %></td>-->
         <% end %>
       </tr>
     <% end %>
