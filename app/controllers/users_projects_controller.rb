@@ -1,4 +1,10 @@
 class UsersProjectsController < ApplicationController
+  layout "dashboard"
+
+  def index
+    p session[:id]
+    @users = UsersProject.where(project_id: session[:id])
+  end
 
   def new
     @projects = Project.where(department_id: session[:department_id])
@@ -18,5 +24,4 @@ class UsersProjectsController < ApplicationController
   def destroy
     UsersProject.destroy(params[:id])
   end
-
 end

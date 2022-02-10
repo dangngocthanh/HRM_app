@@ -1,14 +1,10 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Date of Birth</th>
-    <th>Address</th>
-  </tr>
-  <tr>
-    <td><%= @user.name %></td>
-    <td><%= @user.email %></td>
-    <td><%= @user.dob %></td>
-    <td><%= @user.address %></td>
-  </tr>
-</table>
+<h2>Thông tin cá nhân</h2>
+<strong>Name: </strong> <%= @user.information.name %><br/>
+<strong>Email: </strong> <%= @user.email %><br/>
+<strong>Birthday: </strong> <%= @user.information.date_of_birth.strftime("%d/%m/%Y") %><br/>
+<strong>Address: </strong> <%= @user.information.address %><br/>
+<strong>Phone: </strong> <%= @user.information.phone %><br/>
+<strong>On Board: </strong> <%= @user.information.created_at.strftime("%d/%m/%Y") %><br/>
+
+
+

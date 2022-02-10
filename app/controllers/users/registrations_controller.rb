@@ -67,7 +67,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def IsAdmin?
-    if current_user.information.role_id == 1
+    if current_user.information.admin?
     else
       redirect_to '/'
     end

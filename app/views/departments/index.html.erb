@@ -1,12 +1,13 @@
-<%= render "layouts/navbar" %>
-<h1>All department</h1>
-<% if current_user.information.role_id < 3 %>
+<%#= render "layouts/navbar" %>
+<%# if current_user.information.admin? || current_user.information.pm?%>
+<h1>Department</h1>
+<% if current_user.information.admin? || current_user.information.hr? %>
   <table>
     <% @departments.each do |department| %>
       <tr>
         <td><%= link_to department.name, { :action => 'click', :id => department.id } %></td>
         <td> PM: <%= Information.find(department.user_id).name %></td>
-        <% if current_user.information.role_id == 1 %>
+        <% if current_user.information.admin? %>
           <td><%= link_to 'Edit', { :action => 'edit', :id => department.id } %></td>
           <!--          <td><%#= link_to 'Delete', { :action => 'destroy', :id => department.id }, :method => :delete, :data => { :confirm => "You Sure?" } %></td>-->
         <% end %>
@@ -15,15 +16,39 @@
   </table>
   <%= link_to 'Add department', { :action => 'new' } %>
 <% else %>
-  <% if @departments[0] != nil %>
-    <table>
-      <tr>
-        <td><%= link_to @department.name, { :action => 'click', :id => @department.id } %></td>
-      </tr>
+
+  <% if current_user.information.pm? %>
+    <table class="table">
+      <thead class="thead-dark">
+      <th>#</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Date of Birth</th>
+      <th>role</th>
+      </thead>
+      <% @users.each_with_index do |user, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= user.information.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.information.address %></td>
+          <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
+          <td><%= user.information.role_id %></td>
+        </tr>
+        </tr>
+      <% end %>
     </table>
   <% else %>
-    <h1> You do not have a department </h1>
+
+    <% if @departments[0] != nil %>
+      <table>
+        <tr>
+          <td><%= link_to @department.name, { :action => 'click', :id => @department.id } %></td>
+        </tr>
+      </table>
+    <% else %>
+      <h1> You do not have a department </h1>
+    <% end %>
   <% end %>
 <% end %>
-
-<%= link_to "Sign out", sign_out_path %>

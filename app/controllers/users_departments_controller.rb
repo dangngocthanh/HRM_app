@@ -1,4 +1,5 @@
 class UsersDepartmentsController < ApplicationController
+  layout "dashboard"
   def new
     @departments = Department.all
     @users = Information.where(has_department: false).where('role_id !=1 and role_id !=2')

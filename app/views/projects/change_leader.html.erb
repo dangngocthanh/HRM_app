@@ -1,9 +1,14 @@
-<h1>Change leader</h1>
+<h1>Change leader on <%= @project.name %>'s project</h1>
 <%= form_with(model: @project_change, local: true) do |f| %>
-  <p>Name: <%= @current_leader.information.name %></p>
-  <p>Email: <%= @current_leader.email %></p>
+  <h4>Information project</h4>
+  <div>
+    <p>Project name: <%= @project.name %></p>
+    <p>Project start at: <%= @project.created_at.strftime("%d/%m/%Y") %></p>
+    <p>Leader name: <%= @current_leader.information.name %></p>
+    <p>Leader email: <%= @current_leader.email %></p>
+  </div>
   <%= f.label :user_id %>
   <%= f.collection_select(:user_id, @leader, :id, :email, prompt: true) %>
-  <%= f.hidden_field :id => @project_id%>
+  <%= f.hidden_field :id, value: @project_id%>
   <%= f.submit 'Change', class: "btn btn-primary" %>
 <% end %>

@@ -1,15 +1,23 @@
 class ProjectsController < ApplicationController
-  before_action :IsAdmin?, only: [:create, :new]
-  before_action :admin_or_PM, only: [:change_leader, :done_project, :update_leader]
+  # before_action :IsAdmin?, only: [:create, :new]
   before_action :done?, only: [:change_leader, :destroy, :update_leader]
+  layout "dashboard"
 
   def index
     user = current_user
-    if user.information.role_id == 4
+    if user.information.employee?
       @projects = UsersProject.where(user_id: user.id)
+      department_id = UsersDepartment.where(user_id: current_user.id)
+      @department_id = department_id[0].department_id
     else
-      if user.information.role_id < 4
-        @projects = Project.where(department_id: session[:department_id])
+      if user.information.pm?
+        department_id = UsersDepartment.where(user_id: current_user.id)
+        @department_id = department_id[0].department_id
+        @projects = Project.where(department_id: @department_id)
+      else
+        if user.information.admin? || user.information.hr?
+          @projects= Project.all
+        end
       end
     end
   end
@@ -36,8 +44,11 @@ class ProjectsController < ApplicationController
 
   def change_leader
     @project_id = params[:id]
+    @project = Project.find(@project_id)
     session[:project_update_id] = @project_id
-    @users = UsersDepartment.where(department_id: session[:department_id])
+    @users = UsersDepartment.where(user_id: current_user.id)
+    user_id = @users.ids
+    @users = UsersDepartment.where(department_id: user_id)
     @leader = []
     project = Project.find(params[:id])
     @current_leader = User.find(project.user_id)
@@ -52,8 +63,8 @@ class ProjectsController < ApplicationController
 
   def update_leader
     @project_change = Project.find(session[:project_update_id])
-    @project_change.update(user_id: params['user_id'])
-    add_user_to_users_projects(params['user_id'],session[:project_update_id])
+    @project_change.update(user_id: params[:user_id])
+    add_user_to_users_projects(params[:user_id],params[:id])
     redirect_to action: :index
   end
 
@@ -90,11 +101,4 @@ class ProjectsController < ApplicationController
     @users_department.save
   end
 
-  def admin_or_PM
-    user = current_user
-    if user.information.role_id == 1 || user.information.role_id == 3
-    else
-      redirect_to action: :index
-    end
-  end
 end

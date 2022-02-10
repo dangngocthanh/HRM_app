@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  layout "dashboard"
   def edit
     @user = Information.where(user_id: current_user.id)
   end
