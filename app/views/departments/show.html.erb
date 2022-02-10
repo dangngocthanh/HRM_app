@@ -1,0 +1,35 @@
+<% if @users.blank? %>
+  <h3>You don't have department!!</h3>
+  <% else %>
+  <table class="table">
+    <thead class="thead-dark">
+    <th>#</th>
+    <th>Name</th>
+    <th>Email</th>
+    <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Date of Birth</th>
+    <% end %>
+    <th>role</th>
+    <th colspan="2">Operation</th>
+    </thead>
+    <% @users.each_with_index do |user, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= user.information.name %></td>
+        <td><%= user.email %></td>
+        <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+          <td><%= user.information.address %></td>
+          <td><%= user.information.phone %></td>
+          <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
+        <% end %>
+        <td><%= user.information.role_id %></td>
+        <td><%= link_to 'Edit', { action: :destroy, :id => user.id }, class: 'btn btn-outline-warning' %></td>
+        <td><%= link_to 'Delete', { controller: :users_departments, action: :destroy, :id => user.id }, class: 'btn btn-outline-danger' %></td>
+      </tr>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
