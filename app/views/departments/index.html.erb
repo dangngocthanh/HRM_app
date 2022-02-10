@@ -1,8 +1,5 @@
-<%#= render "layouts/navbar" %>
-<%# if current_user.information.admin? || current_user.information.pm?%>
-
+<h1>Department</h1>
 <% if current_user.information.admin? || current_user.information.hr? %>
-  <h1>Department</h1>
   <table>
     <% @departments.each do |department| %>
       <tr>

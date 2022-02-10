@@ -51,9 +51,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(@project_id)
     authorize @project
     session[:project_update_id] = @project_id
-    @users = UsersDepartment.where(user_id: current_user.id)
-    user_id = @users.ids
-    @users = UsersDepartment.where(department_id: user_id)
+    @users = UsersDepartment.where(department_id: @project.id)
     @leader = []
     project = Project.find(params[:id])
     @current_leader = User.find(project.user_id)
