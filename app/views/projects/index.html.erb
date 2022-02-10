@@ -18,7 +18,9 @@
         <td><%= User.find(project.user_id).email %></td>
         </td>
         <% if current_user.information.admin? || current_user.information.pm? %>
+          <% if policy(project).change_leader? %>
           <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
+            <% end %>
             <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
           <%#else %>
           <!--          <td> no permission </td>-->

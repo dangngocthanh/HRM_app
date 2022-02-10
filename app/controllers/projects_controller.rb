@@ -49,6 +49,7 @@ class ProjectsController < ApplicationController
   def change_leader
     @project_id = params[:id]
     @project = Project.find(@project_id)
+    authorize @project
     session[:project_update_id] = @project_id
     @users = UsersDepartment.where(user_id: current_user.id)
     user_id = @users.ids
