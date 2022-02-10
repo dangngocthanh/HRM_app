@@ -23,10 +23,10 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def update?
-
+    user.information.admin?
   end
 
   def destroy?
-
+    user.information.admin?
   end
 end

@@ -1,0 +1,25 @@
+<h2>Thông tin cá nhân</h2>
+
+<%= form_with(model: @profile, local: true, method: :put) do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, value: current_user.information.name %>
+  </div>
+
+  <div>
+    <%= f.label :address %>
+    <%= f.text_field :address, value: current_user.information.address %>
+  </div>
+
+  <div>
+    <%= f.label :phone %>
+    <%= f.text_field :phone, value: current_user.information.phone %>
+  </div>
+
+  <div>
+    <%= f.label :date_of_birth %>
+    <%= f.date_field :date_of_birth, value: current_user.information.date_of_birth %>
+  </div>
+
+  <%= f.submit 'Update information', class: "btn btn-primary" %>
+<% end %>

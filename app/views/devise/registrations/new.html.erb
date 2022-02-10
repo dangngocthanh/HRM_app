@@ -40,7 +40,7 @@
     </div>
 
     <div>
-      <p>Role: <%= ui.collection_select :role_id, @roles, :id, :name, prompt: true %></p>
+      <p>Role: <%= ui.collection_select :role_id, @roles, :name, :name, prompt: true %></p>
     </div>
 
   <% end %>

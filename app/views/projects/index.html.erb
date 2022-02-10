@@ -1,5 +1,3 @@
-
-<%=render "layouts/navbar" %>
 <h2><%= Department.find(session[:department_id]).name %>'s projects</h2>
 <% @projects.each do |project| %>
   <table>

@@ -1,10 +1,16 @@
 class DepartmentsController < ApplicationController
   # before_action :IsAdmin?, only: [:new, :create, :destroy]
-
+  layout "dashboard"
   def index
-    if current_user.information.role_id == 1 || current_user.information.role_id == 2
+    if current_user.information.admin? || current_user.information.hr?
       @departments = Department.all
     else
+      if current_user.information.pm?
+        department_id = UsersDepartment.where(user_id: current_user.id)
+        department_id = department_id[0].department_id
+        @users_departments = UsersDepartment.where(department_id: department_id)
+        @users = RoleToUser(@users_departments)
+      end
       @departments = UsersDepartment.where(user_id: current_user.id)
       if @departments[0] != nil
         @department = Department.find(@departments[0].department_id)

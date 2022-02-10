@@ -1,4 +1,5 @@
 <h2>Danh sach nhan vien</h2>
+<%= link_to "Sign up", new_user_registration_path %><br/>
 <table class="table">
   <thead class="thead-dark">
   <th>#</th>
@@ -21,7 +22,7 @@
         <%else %>
         <td>No department</td>
       <% end %>
-      <td><%= Role.find(user.information.role_id).name %></td>
+      <td><%= user.information.role_id %></td>
     </tr>
   <% end %>
 

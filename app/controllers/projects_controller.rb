@@ -1,14 +1,18 @@
 class ProjectsController < ApplicationController
   before_action :IsAdmin?, only: [:create, :new]
   before_action :admin_or_PM, only: [:change_leader, :done_project, :update_leader]
+  before_action :done?, only: [:change_leader, :destroy, :update_leader]
+  layout "dashboard"
 
   def index
     user = current_user
-    if user.information.role_id == 4
+    if user.information.employee?
       @projects = UsersProject.where(user_id: user.id)
     else
-      if user.information.role_id < 4
-        @projects = Project.where(department_id: session[:department_id])
+      if user.information.pm?
+        department_id = UsersDepartment.where(user_id: current_user.id)
+        department_id = department_id[0].department_id
+        @projects = Project.where(department_id: department_id)
       end
     end
   end
@@ -24,7 +28,7 @@ class ProjectsController < ApplicationController
     user_id = @department.user_id
     @project = Project.new(name: params['project']['name'], department_id: department_id, user_id: user_id, status: false)
     if @project.save
-      add_user_to_users_projects(user_id)
+      PM_to_leader(user_id)
     end
   end
 
@@ -38,17 +42,22 @@ class ProjectsController < ApplicationController
     session[:project_update_id] = @project_id
     @users = UsersDepartment.where(department_id: session[:department_id])
     @leader = []
-    @users.each do |user|
-      @leader.push(User.where(id: user.user_id)[0])
-    end
     project = Project.find(params[:id])
     @current_leader = User.find(project.user_id)
+    @users.each do |user|
+      if user.user_id == @current_leader.id
+        next
+      end
+      @leader.push(User.where(id: user.user_id)[0])
+    end
+
   end
 
   def update_leader
     @project_change = Project.find(session[:project_update_id])
-    p'asdasd'
     @project_change.update(user_id: params['user_id'])
+    add_user_to_users_projects(params['user_id'],session[:project_update_id])
+    redirect_to action: :index
   end
 
   def done_project
@@ -58,12 +67,28 @@ class ProjectsController < ApplicationController
     redirect_to action: :index
   end
 
+  def destroy
+    UsersProject.destroy(params[:id])
+  end
+
   private
 
-  def add_user_to_users_projects(user_id)
-    id = Project.all.order('id desc')
-    id = id.limit(1)
-    id = id[0].id
+  def done?
+    @project = Project.find(params[:id])
+    if @project.status == true
+      redirect_to action: :index
+    end
+  end
+
+  def add_user_to_users_projects(user_id,project_id)
+    if UsersProject.where(user_id: user_id, project_id: project_id).blank?
+      @users_department = UsersProject.new(project_id: project_id, user_id: user_id)
+      @users_department.save
+    end
+  end
+
+  def PM_to_leader(user_id)
+    id = Project.last.id
     @users_department = UsersProject.new(project_id: id, user_id: user_id)
     @users_department.save
   end
