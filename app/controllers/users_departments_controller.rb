@@ -1,7 +1,7 @@
 class UsersDepartmentsController < ApplicationController
   def new
     @departments = Department.all
-    @users = Information.where(has_department: false)
+    @users = Information.where(has_department: false).where('role_id !=1 and role_id !=2')
     @users = RoleToUser(@users)
     @users_department = UsersDepartment.new
   end
@@ -14,9 +14,6 @@ class UsersDepartmentsController < ApplicationController
         @user.update(has_department: true)
       end
     end
-  end
-
-  def edit
   end
 
   def destroy
