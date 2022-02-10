@@ -31,11 +31,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def done_project?
-
+    user.information.admin? || user.information.pm?
   end
 
   def destroy?
-
+    user.information.admin?
   end
 
 end

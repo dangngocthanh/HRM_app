@@ -6,10 +6,10 @@ class CreateRoles < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    Role.create :name => "Admin"
-    Role.create :name => "HR"
-    Role.create :name => "PM"
-    Role.create :name => "Employee"
+    Role.create :name => "admin"
+    Role.create :name => "hr"
+    Role.create :name => "pm"
+    Role.create :name => "employee"
   end
 
 end

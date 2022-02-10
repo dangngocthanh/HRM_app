@@ -7,8 +7,12 @@ class ProjectsController < ApplicationController
     user = current_user
     if user.information.employee?
       @projects = UsersProject.where(user_id: user.id)
-      department_id = UsersDepartment.where(user_id: current_user.id)
-      @department_id = department_id[0].department_id
+      if @projects.blank?
+        @department_id = nil
+      else
+        department_id = UsersDepartment.where(user_id: current_user.id)
+        @department_id = department_id[0].department_id
+      end
     else
       if user.information.pm?
         department_id = UsersDepartment.where(user_id: current_user.id)
@@ -16,7 +20,7 @@ class ProjectsController < ApplicationController
         @projects = Project.where(department_id: @department_id)
       else
         if user.information.admin? || user.information.hr?
-          @projects= Project.all
+          @projects = Project.all
         end
       end
     end
@@ -62,7 +66,7 @@ class ProjectsController < ApplicationController
   def update_leader
     @project_change = Project.find(session[:project_update_id])
     @project_change.update(user_id: params[:user_id])
-    add_user_to_users_projects(params[:user_id],params[:id])
+    add_user_to_users_projects(params[:user_id], params[:id])
     redirect_to action: :index
   end
 
@@ -86,7 +90,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def add_user_to_users_projects(user_id,project_id)
+  def add_user_to_users_projects(user_id, project_id)
     if UsersProject.where(user_id: user_id, project_id: project_id).blank?
       @users_department = UsersProject.new(project_id: project_id, user_id: user_id)
       @users_department.save
