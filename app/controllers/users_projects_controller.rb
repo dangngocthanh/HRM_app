@@ -6,6 +6,10 @@ class UsersProjectsController < ApplicationController
     @users = UsersProject.where(project_id: session[:id])
   end
 
+  def show
+    @users = UsersProject.where(project_id: params[:id])
+  end
+
   def new
     @projects = Project.where(department_id: session[:department_id])
     @users = UsersDepartment.where(department_id: session[:department_id])

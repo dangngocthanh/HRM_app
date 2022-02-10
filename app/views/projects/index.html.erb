@@ -1,7 +1,7 @@
 <% if current_user.information.pm? || current_user.information.employee? %>
   <% if @department_id != nil %>
     <h2><%= Department.find(@department_id).name %>'s projects</h2>
-    <% else %>
+  <% else %>
     <h3 style="text-align: center">You dont't have project</h3>
   <% end %>
 <% end %>
@@ -14,16 +14,14 @@
   <% @projects.each do |project| %>
     <% if project.status != true %>
       <tr>
-        <td><%= link_to project.name, { :action => 'users_projects_detail', :id => project.id } %>
+        <td><%= link_to project.name, users_project_path(project) %>
         <td><%= User.find(project.user_id).email %></td>
         </td>
         <% if current_user.information.admin? || current_user.information.pm? %>
           <% if policy(project).change_leader? %>
-          <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
-            <% end %>
-            <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
-          <%#else %>
-          <!--          <td> no permission </td>-->
+            <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
+          <% end %>
+          <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
         <% end %>
       </tr>
     <% end %>
