@@ -6,7 +6,7 @@ class UsersProjectPolicy < ApplicationPolicy
     @users_project = users_project
   end
 
-  def new?
+  def edit?
     user.information.admin? || user.information.pm?
   end
 end

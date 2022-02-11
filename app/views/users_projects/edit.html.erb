@@ -1,0 +1,11 @@
+<% provide(:button_text, 'Add User') %>
+<h1>Add User To Project</h1>
+<%= form_with(model: @users_projects, url: users_project_path(@project.id), method: :patch, local: true) do |f| %>
+
+  <div>
+    <%= f.label :user_id %>
+    <%= f.collection_select(:user_id, @users, :id, :email, prompt: false) %>
+  </div>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

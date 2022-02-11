@@ -26,24 +26,38 @@ class UsersProjectsController < ApplicationController
     end
   end
 
-  def new
-    @users_projects = UsersProject.new
-    @projects = Project.where(department_id: session[:department_id])
-    @users = UsersDepartment.where(department_id: session[:department_id])
+  def edit
+    @project = Project.find(params[:id])
+    @users_department = UsersDepartment.where(department_id: @project.department_id)
+    @users_in_project = UsersProject.where(project_id: @project.id)
+    @users = []
+    @users_department.each do |user1|
+      count = 0
+      @users_in_project.each do |user2|
+        authorize @users_in_project
+        if user1.user_id == user2.user_id
+          count = count + 1
+        end
+      end
+      if count == 0
+        @users.push(user1)
+      end
+    end
     @users = RoleToUser(@users)
-    authorize @users_projects
   end
 
-  def create
-    if UsersProject.where(user_id: params['user_id'], project_id: params['project_id']).blank?
-      @users_projects = UsersProject.new(project_id: params['project_id'], user_id: params['user_id'])
+  def update
+    if UsersProject.where(user_id: params[:user_id], project_id: params[:id]).blank?
+      @users_projects = UsersProject.new(project_id: params[:id], user_id: params[:user_id])
       if @users_projects.save
-        redirect_to action: :new
+        redirect_to users_project_path(params[:id])
       end
     end
   end
 
   def destroy
-    UsersProject.destroy(params[:id])
+    user = UsersProject.where(user_id: params[:id])
+    UsersProject.destroy(user[0].id)
+    redirect_to users_projects_path(params[:id])
   end
 end
