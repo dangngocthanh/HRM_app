@@ -6,6 +6,7 @@ class UsersDepartmentsController < ApplicationController
     @users = Information.where(has_department: false).where('role_id !=1 and role_id !=2')
     @users = RoleToUser(@users)
     @users_department = UsersDepartment.new
+    authorize @users_department
   end
 
   def create

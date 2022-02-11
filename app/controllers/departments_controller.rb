@@ -56,6 +56,7 @@ class DepartmentsController < ApplicationController
   def edit
     @department = Department.find(params[:id])
     @current_PM = User.find(@department.user_id)
+    authorize @department
     @users_in_department = UsersDepartment.where(department_id: params[:id])
     @users = []
     @users_in_department.each do |user|

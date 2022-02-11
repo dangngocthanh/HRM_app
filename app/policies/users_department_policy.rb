@@ -1,4 +1,4 @@
-class UserDepartmentPolicy < ApplicationPolicy
+class UsersDepartmentPolicy < ApplicationPolicy
   attr_reader :user, :users_department
 
   def initialize(user, users_department)
@@ -7,7 +7,7 @@ class UserDepartmentPolicy < ApplicationPolicy
   end
 
   def new?
-    user.information.admin? || user
+    user.information.admin?
   end
 
   def create?
