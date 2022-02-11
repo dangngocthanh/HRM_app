@@ -24,6 +24,12 @@ class ProjectsController < ApplicationController
         end
       end
     end
+    @doing_projects = []
+    @projects.each do |project|
+      if project.status == false
+        @doing_projects.push(project)
+      end
+    end
   end
 
   def new
@@ -49,6 +55,7 @@ class ProjectsController < ApplicationController
   def change_leader
     @project_id = params[:id]
     @project = Project.find(@project_id)
+    authorize @project
     session[:project_update_id] = @project_id
     @users = UsersDepartment.where(department_id: @project.id)
     @leader = []

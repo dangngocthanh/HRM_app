@@ -16,6 +16,7 @@ class UsersDepartmentsController < ApplicationController
         @user.update(has_department: true)
       end
     end
+    redirect_to department_path(params['users_department']['department_id'])
   end
 
   def destroy
@@ -31,8 +32,10 @@ class UsersDepartmentsController < ApplicationController
         end
       end
     end
-    @user = UsersDepartment.where(user_id: id)
-    UsersDepartment.destroy(@user[0].id)
+    @users = UsersDepartment.where(user_id: id)
+    UsersDepartment.destroy(@users[0].id)
+    information = Information.where(user_id: id)
+    information[0].update(has_department: false)
   end
 
   def show

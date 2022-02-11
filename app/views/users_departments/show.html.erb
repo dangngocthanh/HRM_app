@@ -11,5 +11,5 @@
 <br>
 <p style="color: crimson"><i> Kicking this employee will kick him out of the projects this employee is working on !!</i>
 </p>
-<%= link_to 'Destroy', users_department_path(@user.id),
+<%= link_to 'Kick', users_department_path(@user.id),
             data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-danger' %>
