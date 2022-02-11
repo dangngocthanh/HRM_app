@@ -1,18 +1,18 @@
-<% if current_user.information.pm? || current_user.information.employee? %>
-  <% if @department_id != nil %>
+<% if @doing_projects.blank? %>
+  <h3 style="text-align: center">You dont't have project</h3>
+<% else %>
+  <% if current_user.information.pm? || current_user.information.employee? %>
     <h2><%= Department.find(@department_id).name %>'s projects</h2>
   <% else %>
-    <h3 style="text-align: center">You dont't have project</h3>
+    <h2> All projects</h2>
   <% end %>
-<% end %>
-<table class="table" style="text-align: center">
-  <thead class="thead-dark">
-  <th>Name project</th>
-  <th>Name PM</th>
-  <th>Action</th>
-  </thead>
-  <% @projects.each do |project| %>
-    <% if project.status != true %>
+  <table class="table" style="text-align: center">
+    <thead class="thead-dark">
+    <th>Name project</th>
+    <th>Name leader</th>
+    <th>Action</th>
+    </thead>
+    <% @projects.each do |project| %>
       <tr>
         <td><%= link_to project.name, users_project_path(project) %>
         <td><%= User.find(project.user_id).email %></td>
@@ -25,8 +25,8 @@
         <% end %>
       </tr>
     <% end %>
-  <% end %>
-</table>
+  </table>
+<% end %>
 <%# end %>
 
 <%= link_to 'Back', '/' %>

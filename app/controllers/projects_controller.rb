@@ -24,6 +24,12 @@ class ProjectsController < ApplicationController
         end
       end
     end
+    @doing_projects = []
+    @projects.each do |project|
+      if project.status == false
+        @doing_projects.push(project)
+      end
+    end
   end
 
   def new

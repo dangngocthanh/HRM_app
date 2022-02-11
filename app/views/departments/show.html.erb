@@ -29,9 +29,15 @@
         <% end %>
         <td><%= user.information.role_id %></td>
         <% if current_user.information.admin? || current_user.information.pm? %>
-
-          <td><%= link_to 'Edit', { action: :destroy, :id => user.id }, class: 'btn btn-outline-warning' %></td>
-          <td><%= link_to 'Delete', users_department_path(user), data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-outline-danger' %></td>
+          <% if user.information.pm? %>
+            <% if current_user.information.admin? %>
+              <td><%= link_to 'Edit', { action: :destroy, :id => user.id }, class: 'btn btn-outline-warning' %></td>
+              <td><%= link_to 'Delete', users_department_path(user), data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-outline-danger' %></td>
+            <% end %>
+          <% else %>
+            <td><%= link_to 'Edit', { action: :destroy, :id => user.id }, class: 'btn btn-outline-warning' %></td>
+            <td><%= link_to 'Delete', users_department_path(user), data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-outline-danger' %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
