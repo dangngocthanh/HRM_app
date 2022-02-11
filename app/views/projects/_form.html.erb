@@ -1,7 +1,10 @@
 <%= form_with(model: @project, local: true) do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.label :department_id %>
-  <%= f.collection_select(:department_id, @departments, :id, :name, prompt: false)%>
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <div style="width: 50%">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control col-md-7' %> <br>
+    <%= f.label :department_id %>:
+    <%= f.select :department_id, options_for_select(@departments.map { |department| [department.name, department.id] }), {}, class: 'form-control col-md-7' %>
+    <%= f.submit yield(:button_text), class: "btn btn-primary mt-2" %>
+  </div>
+
 <% end %>
