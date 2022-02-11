@@ -6,16 +6,17 @@ class DepartmentsController < ApplicationController
     if current_user.information.admin? || current_user.information.hr?
       @departments = Department.all
     else
-      if current_user.information.pm?
-        department_id = UsersDepartment.where(user_id: current_user.id)
-        department_id = department_id[0].department_id
-        @users_departments = UsersDepartment.where(department_id: department_id)
-        @users = RoleToUser(@users_departments)
-      end
-      @departments = UsersDepartment.where(user_id: current_user.id)
-      if @departments[0] != nil
-        @department = Department.find(@departments[0].department_id)
-      end
+      @users_departments = UsersDepartment.where(user_id: current_user.id)
+      @departments = Department.where(id: @users_departments[0].department_id)
+      # if current_user.information.pm?
+      # department_id = UsersDepartment.where(user_id: current_user.id)
+      # department_id = department_id[0].department_id
+      # @users_departments = UsersDepartment.where(department_id: department_id)
+      # @users = RoleToUser(@users_departments)
+      # end
+      # @departments = UsersDepartment.where(user_id: current_user.id)
+      # if @departments[0] != nil
+      #   @department = Department.find(@departments[0].department_id)
     end
   end
 
@@ -25,7 +26,7 @@ class DepartmentsController < ApplicationController
       @users_departments = UsersDepartment.where(department_id: @department.id)
       @users = RoleToUser(@users_departments)
     else
-      if  current_user.information.has_department
+      if current_user.information.has_department
         @department = Department.find(params[:id])
         @users_departments = UsersDepartment.where(department_id: @department.id, user_id: current_user.id)
         @users = RoleToUser(@users_departments)
@@ -55,6 +56,7 @@ class DepartmentsController < ApplicationController
   def edit
     @department = Department.find(params[:id])
     @current_PM = User.find(@department.user_id)
+    authorize @department
     @users_in_department = UsersDepartment.where(department_id: params[:id])
     @users = []
     @users_in_department.each do |user|
@@ -76,7 +78,6 @@ class DepartmentsController < ApplicationController
     current_leader = @department.user_id
     if @department.update(name: params['department']['name'], user_id: params['department']['user_id'])
       if add_user_department(params['department']['user_id'])
-        p 'asd'
         if update_role_PM(params['department']['user_id'])
           return_role(current_leader)
           redirect_to action: :index

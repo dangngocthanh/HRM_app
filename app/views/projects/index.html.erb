@@ -1,32 +1,34 @@
-<% if current_user.information.pm? || current_user.information.employee? %>
-  <% if @department_id != nil %>
+<% if @doing_projects.blank? %>
+  <h3 style="text-align: center">You dont't have project</h3>
+<% else %>
+  <% if current_user.information.pm? || current_user.information.employee? %>
     <h2><%= Department.find(@department_id).name %>'s projects</h2>
-    <% else %>
-    <h3 style="text-align: center">You dont't have project</h3>
+  <% else %>
+    <h2> All projects</h2>
   <% end %>
-<% end %>
-<table class="table" style="text-align: center">
-  <thead class="thead-dark">
-  <th>Name project</th>
-  <th>Name PM</th>
-  <th>Action</th>
-  </thead>
-  <% @projects.each do |project| %>
-    <% if project.status != true %>
+  <table class="table" style="text-align: center">
+    <thead class="thead-dark">
+    <th>Name project</th>
+    <th>Name leader</th>
+    <% if current_user.information.pm? || current_user.information.admin? %>
+      <th>Action</th>
+    <% end %>
+    </thead>
+    <% @projects.each do |project| %>
       <tr>
-        <td><%= link_to project.name, { :action => 'users_projects_detail', :id => project.id } %>
+        <td><%= link_to project.name, users_project_path(project) %>
         <td><%= User.find(project.user_id).email %></td>
         </td>
         <% if current_user.information.admin? || current_user.information.pm? %>
-          <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
-            <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
-          <%#else %>
-          <!--          <td> no permission </td>-->
+          <% if policy(project).change_leader? %>
+            <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
+          <% end %>
+          <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
         <% end %>
       </tr>
     <% end %>
-  <% end %>
-</table>
+  </table>
+<% end %>
 <%# end %>
 
 <%= link_to 'Back', '/' %>

@@ -27,7 +27,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update_leader
-    user.information.admin? || user.information.pm?
+    user.information.admin?
   end
 
   def done_project?
