@@ -34,6 +34,7 @@ class UsersProjectsController < ApplicationController
     @users_department.each do |user1|
       count = 0
       @users_in_project.each do |user2|
+        authorize @users_in_project
         if user1.user_id == user2.user_id
           count = count + 1
         end
@@ -45,12 +46,6 @@ class UsersProjectsController < ApplicationController
     @users = RoleToUser(@users)
   end
 
-  # def new
-  #   @projects = Project.where(department_id: session[:department_id])
-  #   @users = UsersDepartment.where(department_id: session[:department_id])
-  #   @users = RoleToUser(@users)
-  # end
-
   def update
     if UsersProject.where(user_id: params[:user_id], project_id: params[:id]).blank?
       @users_projects = UsersProject.new(project_id: params[:id], user_id: params[:user_id])
@@ -61,6 +56,8 @@ class UsersProjectsController < ApplicationController
   end
 
   def destroy
-    UsersProject.destroy(params[:id])
+    user = UsersProject.where(user_id: params[:id])
+    UsersProject.destroy(user[0].id)
+    redirect_to users_projects_path(params[:id])
   end
 end

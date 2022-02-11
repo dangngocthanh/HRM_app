@@ -11,7 +11,7 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def show?
-    user.information.admin?
+
   end
 
   def new?
@@ -19,6 +19,10 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def create?
+    user.information.admin?
+  end
+
+  def edit?
     user.information.admin?
   end
 

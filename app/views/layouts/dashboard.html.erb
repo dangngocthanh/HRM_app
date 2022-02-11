@@ -35,7 +35,7 @@
       <li class="nav-item">
         <%= link_to "Project", projects_path, class: "nav-link" %>
       </li>
-      <% if current_user.information.admin? || current_user.information.hr? %>
+      <% if policy(User.all).index? %>
         <li class="nav-item">
           <%= link_to "User", users_path, class: "nav-link" %>
         </li>
