@@ -27,9 +27,11 @@ class UsersProjectsController < ApplicationController
   end
 
   def new
+    @users_projects = UsersProject.new
     @projects = Project.where(department_id: session[:department_id])
     @users = UsersDepartment.where(department_id: session[:department_id])
     @users = RoleToUser(@users)
+    authorize @users_projects
   end
 
   def create

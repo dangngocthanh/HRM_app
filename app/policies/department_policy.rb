@@ -11,7 +11,7 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def show?
-    user.information.admin?
+
   end
 
   def new?

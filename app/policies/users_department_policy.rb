@@ -17,4 +17,5 @@ class UsersDepartmentPolicy < ApplicationPolicy
   def show?
 
   end
+
 end
