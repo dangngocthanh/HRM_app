@@ -22,6 +22,10 @@ class DepartmentPolicy < ApplicationPolicy
     user.information.admin?
   end
 
+  def edit?
+    user.information.admin?
+  end
+
   def update?
     user.information.admin?
   end
