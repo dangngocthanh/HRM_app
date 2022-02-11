@@ -8,6 +8,7 @@ class UsersProjectsController < ApplicationController
 
   def show
     @users = []
+    @project = Project.find(params[:id])
     if current_user.information.admin? || current_user.information.hr?
       @users = UsersProject.where(project_id: params[:id])
     else

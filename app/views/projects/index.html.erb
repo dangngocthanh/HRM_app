@@ -10,7 +10,9 @@
     <thead class="thead-dark">
     <th>Name project</th>
     <th>Name leader</th>
-    <th>Action</th>
+    <% if current_user.information.pm? || current_user.information.admin? %>
+      <th>Action</th>
+    <% end %>
     </thead>
     <% @projects.each do |project| %>
       <tr>

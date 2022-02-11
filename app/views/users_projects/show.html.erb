@@ -1,18 +1,27 @@
 <h2>Member in project</h2>
-<p>Project have <%= @users.length %>member</p>
+<p style="color: #2f9bcd">Project have <%= @users.length %> member</p>
 <table class="table">
   <thead class="thead-dark">
   <th>#</th>
   <th>Name</th>
   <th>Email</th>
-  <th>Action</th>
+  <th>Role</th>
+  <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? || @project.user_id == current_user.id %>
+    <th>Action</th>
+  <% end %>
+
   </thead>
   <% @users.each_with_index do |user, index| %>
     <tr>
       <td><%= index + 1 %></td>
       <td><%= user.user.information.name %></td>
       <td><%= User.find(user.user_id).email %></td>
-      <% if current_user.information.admin? || current_user.information.pm? %>
+      <% if @project.user_id == user.user_id %>
+        <td style="color: red">Leader</td>
+      <% else %>
+        <td>Employee</td>
+      <% end %>
+      <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? || @project.user_id == current_user.id %>
         <td><%= link_to "Detail", user_path(user.user_id), class: "btn btn-primary" %></td>
       <% end %>
     </tr>
