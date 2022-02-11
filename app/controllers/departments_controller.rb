@@ -77,7 +77,6 @@ class DepartmentsController < ApplicationController
     current_leader = @department.user_id
     if @department.update(name: params['department']['name'], user_id: params['department']['user_id'])
       if add_user_department(params['department']['user_id'])
-        p 'asd'
         if update_role_PM(params['department']['user_id'])
           return_role(current_leader)
           redirect_to action: :index
