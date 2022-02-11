@@ -5,11 +5,15 @@ class ProjectsController < ApplicationController
 
   def index
     user = current_user
+    @projects = []
     if user.information.employee?
-      @projects = UsersProject.where(user_id: user.id)
-      if @projects.blank?
+      @projects_ids = UsersProject.where(user_id: user.id)
+      if @projects_ids.blank?
         @department_id = nil
       else
+        @projects_ids.each do |project|
+          @projects.push(Project.find(project.project_id))
+        end
         department_id = UsersDepartment.where(user_id: current_user.id)
         @department_id = department_id[0].department_id
       end
