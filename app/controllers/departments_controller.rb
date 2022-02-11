@@ -7,16 +7,10 @@ class DepartmentsController < ApplicationController
       @departments = Department.all
     else
       @users_departments = UsersDepartment.where(user_id: current_user.id)
-      @departments = Department.where(id: @users_departments[0].department_id)
-      # if current_user.information.pm?
-      # department_id = UsersDepartment.where(user_id: current_user.id)
-      # department_id = department_id[0].department_id
-      # @users_departments = UsersDepartment.where(department_id: department_id)
-      # @users = RoleToUser(@users_departments)
-      # end
-      # @departments = UsersDepartment.where(user_id: current_user.id)
-      # if @departments[0] != nil
-      #   @department = Department.find(@departments[0].department_id)
+      if @departments.blank?
+      else
+        @departments = Department.where(id: @users_departments[0].department_id)
+      end
     end
   end
 

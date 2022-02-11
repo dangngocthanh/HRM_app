@@ -7,7 +7,7 @@ gem "rails", "~> 7.0.1"
 gem "devise", "~> 4.1"
 gem "pundit"
 gem "nested_form"
-
+gem 'font-awesome-rails'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
