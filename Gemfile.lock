@@ -245,7 +245,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.1)
-  font-awesome-rails
+  font-awesome-rails (~> 4.7, >= 4.7.0.2)
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
