@@ -2,13 +2,14 @@
 
   <div>
     <%= f.label :user_id %>
-    <%= f.collection_select(:user_id, @users, :id, :email, prompt: false ) %>
+    <%= f.select :user_id, options_for_select(@users.map{|user| [user.email] }),{}, class: "form-control col-md-7"%>
   </div>
 
   <div>
     <%= f.label :department_id %>
-    <%= f.collection_select(:department_id, @departments, :id, :name, prompt: false ) %>
+    <%= f.select :department_id, options_for_select(@departments.map { |department| [department.name, department.id] }), {}, class: 'form-control col-md-7' %>
+
   </div>
 
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <%= f.submit yield(:button_text), class: "btn btn-primary mt-2" %>
 <% end %>

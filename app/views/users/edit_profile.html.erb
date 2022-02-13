@@ -1,9 +1,9 @@
 <h2>Thông tin cá nhân</h2>
 
 <%= form_with(model: @profile, local: true, method: :put) do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name, value: current_user.information.name %>
+  <div class="form-field">
+    <%= f.label :email %>
+    <%= f.text_field :email, value: current_user.information.name, class: "form-control"%>
   </div>
 
   <div>
