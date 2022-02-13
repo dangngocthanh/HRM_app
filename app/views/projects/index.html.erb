@@ -10,25 +10,30 @@
     <thead class="thead-dark">
     <th>Name project</th>
     <th>Name leader</th>
-    <th>Action</th>
+    <% if current_user.information.pm? || current_user.information.admin? %>
+      <th colspan="2">Action</th>
+    <% end %>
     </thead>
     <% @projects.each do |project| %>
       <tr>
         <td><%= link_to project.name, users_project_path(project) %>
         <td><%= User.find(project.user_id).email %></td>
         </td>
-        <% if current_user.information.admin? || current_user.information.pm? %>
-          <% if policy(project).change_leader? %>
-            <td><%= link_to 'Change leader', { :action => 'change_leader', :id => project.id } %>|
-          <% end %>
-          <%= link_to 'Done project', { :action => 'done_project', :id => project.id } %></td>
+        <% if policy(project).change_leader? %>
+          <td>
+            <div><%= link_to raw('<i class="fa fa-exchange" aria-hidden="true"></i>
+ Change leader'), change_leader_path(:id => project.id), class: 'btn btn-success' %></div>
+          </td>
+          <td>
+            <div><%= link_to raw('<i class="fa fa-check-circle-o" aria-hidden="true"></i>
+ Done project'), done_project_path(:id => project.id), class: 'btn btn-success' %></div>
+          </td>
         <% end %>
       </tr>
     <% end %>
   </table>
 <% end %>
-<%# end %>
-
 <%= link_to 'Back', '/' %>
+
 
 

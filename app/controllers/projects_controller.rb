@@ -5,11 +5,15 @@ class ProjectsController < ApplicationController
 
   def index
     user = current_user
+    @projects = []
     if user.information.employee?
-      @projects = UsersProject.where(user_id: user.id)
-      if @projects.blank?
+      @projects_ids = UsersProject.where(user_id: user.id)
+      if @projects_ids.blank?
         @department_id = nil
       else
+        @projects_ids.each do |project|
+          @projects.push(Project.find(project.project_id))
+        end
         department_id = UsersDepartment.where(user_id: current_user.id)
         @department_id = department_id[0].department_id
       end
@@ -67,14 +71,13 @@ class ProjectsController < ApplicationController
       end
       @leader.push(User.where(id: user.user_id)[0])
     end
-
   end
 
   def update_leader
     @project_change = Project.find(session[:project_update_id])
     @project_change.update(user_id: params[:user_id])
     add_user_to_users_projects(params[:user_id], params[:id])
-    redirect_to action: :index
+    redirect_to users_project_path(params[:id])
   end
 
   def done_project

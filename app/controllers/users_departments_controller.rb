@@ -6,6 +6,7 @@ class UsersDepartmentsController < ApplicationController
     @users = Information.where(has_department: false).where('role_id !=1 and role_id !=2')
     @users = RoleToUser(@users)
     @users_department = UsersDepartment.new
+    authorize @users_department
   end
 
   def create
@@ -21,21 +22,24 @@ class UsersDepartmentsController < ApplicationController
 
   def destroy
     id = params[:id]
-    @users_projects = UsersProject.where(user_id: id)
-    @users_projects.each do |users_projects|
-      if Project.find(users_projects.project_id).status == false
-        UsersProject.destroy(users_projects.id)
-        project = Project.find(users_projects.project_id)
-        if project.user_id == id
-          pm_id = Department.find(project.department_id).user_id
-          project.update(user_id: pm_id)
+    if User.find(id).information.pm?
+    else
+      @users_projects = UsersProject.where(user_id: id)
+      @users_projects.each do |users_projects|
+        if Project.find(users_projects.project_id).status == false
+          UsersProject.destroy(users_projects.id)
+          project = Project.find(users_projects.project_id)
+          if project.user_id == id
+            pm_id = Department.find(project.department_id).user_id
+            project.update(user_id: pm_id)
+          end
         end
       end
+      @users = UsersDepartment.where(user_id: id)
+      UsersDepartment.destroy(@users[0].id)
+      information = Information.where(user_id: id)
+      information[0].update(has_department: false)
     end
-    @users = UsersDepartment.where(user_id: id)
-    UsersDepartment.destroy(@users[0].id)
-    information = Information.where(user_id: id)
-    information[0].update(has_department: false)
   end
 
   def show

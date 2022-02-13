@@ -1,6 +1,7 @@
 <% if @users.blank? %>
   <h3>You don't have department!!</h3>
 <% else %>
+
   <table class="table">
     <thead class="thead-dark">
     <th>#</th>
@@ -28,6 +29,7 @@
           <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
         <% end %>
         <td><%= user.information.role_id %></td>
+
         <% if current_user.information.admin? || current_user.information.pm? %>
           <% if user.information.pm? %>
             <% if current_user.information.admin? %>
@@ -39,6 +41,11 @@
             <td><%= link_to 'Delete', users_department_path(user), data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-outline-danger' %></td>
           <% end %>
         <% end %>
+
+
+
+
+
       </tr>
     <% end %>
   </table>

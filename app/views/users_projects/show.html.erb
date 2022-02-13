@@ -1,22 +1,50 @@
-<h2>Member in project</h2>
-<p>Project have <%= @users.length %>member</p>
+<h2>Member in <%= @project.name %> project</h2>
+<div class="row">
+  <p style="color: #2f9bcd" class="col-6">Project have <%= @users.length %> member</p>
+  <% if current_user.information.admin? || current_user.information.pm? %>
+    <div style="margin-left: 54%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-check-circle-o" aria-hidden="true"></i>
+ Done project'), done_project_path(:id => @project.id), class: 'btn btn-success' %></div>
+    <div style="margin-left: 67%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-exchange" aria-hidden="true"></i>
+ Change leader'), change_leader_path(:id => @project.id), class: 'btn btn-success' %></div>
+    <div style="margin-left: 81%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-user-plus" aria-hidden="true"></i>
+ Add user to project'), edit_users_project_path(@project.id), class: 'btn btn-success' %></div>
+  <% end %>
+
+</div>
 <table class="table">
   <thead class="thead-dark">
   <th>#</th>
   <th>Name</th>
   <th>Email</th>
-  <th>Action</th>
+  <th>Role</th>
+  <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? || @project.user_id == current_user.id %>
+    <th colspan="2">Action</th>
+  <% end %>
+
   </thead>
   <% @users.each_with_index do |user, index| %>
     <tr>
       <td><%= index + 1 %></td>
       <td><%= user.user.information.name %></td>
       <td><%= User.find(user.user_id).email %></td>
-      <% if current_user.information.admin? || current_user.information.pm? %>
-        <td><%= link_to "Detail", user_path(user.user_id), class: "btn btn-primary" %></td>
+      <% if @project.user_id == user.user_id %>
+        <td style="color: red">Leader</td>
+      <% else %>
+        <td>Employee</td>
+      <% end %>
+      <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+        <td><%= link_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square-fill" viewBox="0 0 16 16">
+  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+</svg> Profile'), user_path(user.user_id), class: "btn btn-primary" %></td>
+        <% if @project.user_id == user.user_id %>
+        <% else %>
+          <td><%= link_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+</svg> Delete'), users_project_path(user.user_id), data: { "turbo-method": :delete, turbo_confirm: :'Are you sure?' }, class: "btn btn-danger" %></td>
+        <% end %>
       <% end %>
     </tr>
   <% end %>
-
 
 </table>
