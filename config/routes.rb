@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     get "sign_out" => "users/sessions#destroy"
     get "sign_up" => "users/registrations#new"
     post "sign_up" => "users/registrations#create"
-    # post "information" => "users/registrations#edit"
   end
   devise_scope :user do
     authenticated :user do
@@ -26,7 +25,9 @@ Rails.application.routes.draw do
       # get 'users_projects_detail' => 'projects#users_projects_detail'
       get 'user_profile' => 'users#info'
       get 'done_project' => 'projects#done_project'
+      get 'restart_project' => 'projects#restart_project'
       get 'click' => 'departments#click'
+      get 'changeStatus' => 'projects#changeStatus'
     end
 
     unauthenticated do

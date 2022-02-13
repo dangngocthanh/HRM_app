@@ -28,12 +28,6 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    @doing_projects = []
-    @projects.each do |project|
-      if project.status == false
-        @doing_projects.push(project)
-      end
-    end
   end
 
   def new
@@ -84,6 +78,22 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.update(status: true)
     @project.save
+    redirect_to action: :changeStatus
+  end
+
+  def restart_project
+    @project = Project.find(params[:id])
+    @project.update(status: false)
+    @project.save
+    redirect_to action: :changeStatus
+  end
+
+  def changeStatus
+    if session[:status]
+      session[:status] = false
+    else
+      session[:status] = true
+    end
     redirect_to action: :index
   end
 
