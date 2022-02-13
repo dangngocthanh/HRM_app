@@ -20,9 +20,10 @@
     <% if true == session[:status] %>
       <th>Time done</th>
       <% if current_user.information.pm? || current_user.information.admin? %>
-        <th>Action</th>
+        <th colspan="2">Action</th>
       <% end %>
     <% else %>
+      <th>Time assign</th>
       <% if current_user.information.pm? || current_user.information.admin? %>
         <th colspan="2">Action</th>
       <% end %>
@@ -46,6 +47,9 @@
               </td>
             <% end %>
           <% else %>
+            <td>
+              <div><%= project.created_at.strftime("%d/%m/%Y") %></div>
+            </td>
             <% if policy(project).change_leader? %>
               <td>
                 <div><%= link_to raw('<i class="fa fa-exchange" aria-hidden="true"></i>

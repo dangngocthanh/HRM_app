@@ -4,51 +4,55 @@
 
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field"> <%= f.label :email %><br/>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="form-field">
+    <%= f.label :email %><br/>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" ,class: "form-control col-md-4" %>
   </div>
 
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br/> <%= f.password_field :password, autocomplete: "new-password" %>
+    <% end %><br/> <%= f.password_field :password, autocomplete: "new-password" , class: "form-control col-md-4"%>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %>
     <br/>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password",class: "form-control col-md-4" %>
   </div>
 
   <%= f.fields_for :information do |ui| %>
 
-    <div>
-      <p>Name: <%= ui.text_field :name %></p>
+    <div class="form-field">
+      <%= ui.label :name %>
+      <%= ui.text_field :name, class: "form-control col-md-4" %>
     </div>
 
-    <div>
-      <p>Address: <%= ui.text_field :address %></p>
+    <div class="form-field">
+      <%= ui.label :address %>
+      <%= ui.text_field :address ,class: "form-control col-md-4"%>
     </div>
 
-    <div>
-      <p>Date of birth: <%= ui.date_field :date_of_birth %></p>
+    <div class="form-field">
+      <%= ui.label :date_of_birth %>
+      <%= ui.date_field :date_of_birth, class: "form-control col-md-4"%>
     </div>
 
-    <div>
-      <p>Phone Number: <%= ui.text_field :phone %></p>
+    <div class="form-field">
+      <%= ui.label :phone %>
+      <%= ui.text_field :phone, class: "form-control col-md-4" %>
     </div>
 
-    <div>
-      <p>Role: <%= ui.collection_select :role_id, @roles, :name, :name, prompt: false %></p>
+    <div class="form-field">
+      <%= ui.label :role %>
+      <%= ui.select :role_id, options_for_select(@roles.map{|role| [role.name,role.id]}),{}, class: "form-control col-md-4"%>
     </div>
 
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up" ,class: 'btn btn-primary mt-2'%>
   </div>
 
 <% end %>
-
-<%= render "devise/shared/links" %>

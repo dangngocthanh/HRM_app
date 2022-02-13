@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     super do |resource|
-      @roles = Role.where('id != 1')
+      @roles = Role.where('id != 1 and id != 3')
     end
 
   end

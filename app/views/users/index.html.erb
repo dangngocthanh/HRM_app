@@ -1,7 +1,7 @@
 <h2>Employee list</h2>
 <% if current_user.information.admin? %>
   <%= link_to raw('<i class="fa fa-user-plus" aria-hidden="true"></i>
- Sign_up'), new_user_registration_path , class: 'btn btn-primary mb-2'%><br/>
+ Add new user'), new_user_registration_path , class: 'btn btn-primary mb-2'%><br/>
 <% end %>
 <table class="table">
   <thead class="thead-dark">
