@@ -6,26 +6,14 @@ class DepartmentsController < ApplicationController
     if current_user.information.admin? || current_user.information.hr?
       @departments = Department.all
     else
-      @users_departments = UsersDepartment.where(user_id: current_user.id)
-      if @departments.blank?
-      else
-        @departments = Department.where(id: @users_departments[0].department_id)
-      end
+        @departments = [current_user.department]
     end
   end
 
   def show
-    if current_user.information.admin? || current_user.information.hr?
+    authorize Department.none
       @department = Department.find(params[:id])
-      @users_departments = UsersDepartment.where(department_id: @department.id)
-      @users = RoleToUser(@users_departments)
-    else
-      if current_user.information.has_department
-        @department = Department.find(params[:id])
-        @users_departments = UsersDepartment.where(department_id: @department.id, user_id: current_user.id)
-        @users = RoleToUser(@users_departments)
-      end
-    end
+      @users = @department.users
   end
 
   def new

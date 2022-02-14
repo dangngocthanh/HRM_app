@@ -11,7 +11,7 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def show?
-
+    user.information.admin? || user.information.hr? || current_user.department.id == params[:id]
   end
 
   def new?
