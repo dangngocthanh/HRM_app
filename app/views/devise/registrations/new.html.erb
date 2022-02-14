@@ -46,7 +46,7 @@
 
     <div class="form-field">
       <%= ui.label :role %>
-      <%= ui.select :role_id, options_for_select(@roles.map{|role| [role.name,role.id]}),{}, class: "form-control col-md-4"%>
+      <%= ui.select :role_id, options_for_select(@roles.map{|role| [role.name,role.name]}),{}, class: "form-control col-md-4"%>
     </div>
 
   <% end %>

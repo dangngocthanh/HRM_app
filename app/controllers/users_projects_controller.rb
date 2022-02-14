@@ -30,11 +30,10 @@ class UsersProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @users_department = UsersDepartment.where(department_id: @project.department_id)
     @users_in_project = UsersProject.where(project_id: @project.id)
-    @users = []
+      @users = []
     @users_department.each do |user1|
       count = 0
       @users_in_project.each do |user2|
-        authorize @users_in_project
         if user1.user_id == user2.user_id
           count = count + 1
         end
@@ -44,6 +43,7 @@ class UsersProjectsController < ApplicationController
       end
     end
     @users = RoleToUser(@users)
+    authorize @users_in_project
   end
 
   def update

@@ -3,9 +3,16 @@
 <%= form_with(model: @users_projects, url: users_project_path(@project.id), method: :patch, local: true) do |f| %>
 
   <div>
-    <%= f.label :user_id %>
-    <%= f.collection_select(:user_id, @users, :id, :email, prompt: false) %>
+    <p>Name project: <%= @project.name %></p>
+    <p>Created at: <%= @project.created_at.strftime("%d/%m/%Y") %></p>
+    <p>Leader: <%= User.find(@project.user_id).information.name %></p>
+    <p>Members: <%= @users_in_project.length %></p>
   </div>
 
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <div>
+    <%= f.label :user_id %>:
+    <%= f.select :user_id, options_for_select(@users.map { |user| [user.email, user.id] }), {}, class: "form-control col-md-4" %>
+  </div>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary mt-2" %>
 <% end %>

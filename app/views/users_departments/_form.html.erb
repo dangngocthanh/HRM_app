@@ -2,7 +2,7 @@
 
   <div>
     <%= f.label :user_id %>
-    <%= f.select :user_id, options_for_select(@users.map{|user| [user.email] }),{}, class: "form-control col-md-7"%>
+    <%= f.select :user_id, options_for_select(@users.map{|user| [user.email, user.id] }),{}, class: "form-control col-md-7"%>
   </div>
 
   <div>
