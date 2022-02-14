@@ -1,48 +1,43 @@
-<% if @users.blank? %>
-  <h3>You don't have department!!</h3>
-<% else %>
-  <h3>Employee in <%= @department.name %> department</h3>
-  <table class="table">
-    <thead class="thead-dark">
-    <th>#</th>
-    <th>Name</th>
-    <th>Email</th>
-    <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
-      <th>Address</th>
-      <th>Phone</th>
-      <th>Date of Birth</th>
-    <% end %>
-    <th>role</th>
-    <% if current_user.information.admin? || current_user.information.pm? %>
-      <th colspan="2">Operation</th>
-    <% end %>
+<h3>Employee in <%= @department.name %> department</h3>
+<table class="table">
+  <thead class="thead-dark">
+  <th>#</th>
+  <th>Name</th>
+  <th>Email</th>
+  <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+    <th>Address</th>
+    <th>Phone</th>
+    <th>Date of Birth</th>
+  <% end %>
+  <th>role</th>
+  <% if current_user.information.admin? || current_user.information.pm? %>
+    <th colspan="2">Operation</th>
+  <% end %>
 
-    </thead>
-    <% @users.each_with_index do |user, index| %>
-      <tr>
-        <td><%= index + 1 %></td>
-        <td><%= user.information.name %></td>
-        <td><%= user.email %></td>
-        <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
-          <td><%= user.information.address %></td>
-          <td><%= user.information.phone %></td>
-          <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
-        <% end %>
-        <td><%= user.information.role_id %></td>
+  </thead>
+  <% @department.users.each_with_index do |user, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= user.information.name %></td>
+      <td><%= user.email %></td>
+      <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+        <td><%= user.information.address %></td>
+        <td><%= user.information.phone %></td>
+        <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
+      <% end %>
+      <td><%= user.information.role_id %></td>
 
-        <% if current_user.information.admin? || current_user.information.pm? %>
-          <% if user.information.pm? %>
-          <% else %>
-            <td><%= link_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
+      <% if current_user.information.admin? || current_user.information.pm? %>
+        <% if user.information.pm? %>
+        <% else %>
+          <td><%= link_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
   <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 </svg> Delete'), users_department_path(user), data: { "turbo-method": :delete, turbo_confirm: 'Are you certain you want to delete this?' }, class: 'btn btn-danger' %></td>
-          <% end %>
         <% end %>
+      <% end %>
 
 
-      </tr>
-    <% end %>
-  </table>
-<% end %>
-
+    </tr>
+  <% end %>
+</table>

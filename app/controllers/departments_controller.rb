@@ -3,29 +3,16 @@ class DepartmentsController < ApplicationController
   layout "dashboard"
 
   def index
-    if current_user.information.admin? || current_user.information.hr?
+    if policy(Department).index?
       @departments = Department.all
     else
-      @users_departments = UsersDepartment.where(user_id: current_user.id)
-      if @departments.blank?
-      else
-        @departments = Department.where(id: @users_departments[0].department_id)
-      end
+      @departments = [current_user.department]
     end
   end
 
   def show
-    if current_user.information.admin? || current_user.information.hr?
-      @department = Department.find(params[:id])
-      @users_departments = UsersDepartment.where(department_id: @department.id)
-      @users = RoleToUser(@users_departments)
-    else
-      if current_user.information.has_department
-        @department = Department.find(params[:id])
-        @users_departments = UsersDepartment.where(department_id: @department.id, user_id: current_user.id)
-        @users = RoleToUser(@users_departments)
-      end
-    end
+    @department = Department.find(params[:id])
+    authorize @department
   end
 
   def new
@@ -37,7 +24,7 @@ class DepartmentsController < ApplicationController
 
   def create
     user_id = params['department']['user_id']
-    @department = Department.new(name: params['department']['name'], user_id: user_id)
+    @department = Department.new(name: params['department']['name'], user_id: params['department']['user_id'])
     if @department.save
       if add_user_department(user_id)
         if update_role_PM(user_id)
@@ -51,32 +38,15 @@ class DepartmentsController < ApplicationController
     @department = Department.find(params[:id])
     @current_PM = User.find(@department.user_id)
     authorize @department
-    @users_in_department = UsersDepartment.where(department_id: params[:id])
-    @users = []
-    @users_in_department.each do |user|
-      user = Information.where(user_id: user.user_id)
-      if user[0].role_id == 3
-        next
-      end
-      @users.push(user[0])
-    end
-    @users_free = Information.where('role_id != 2').where(has_department: false)
-    @users_free.each do |user|
-      @users.push(user)
-    end
-    @users = RoleToUser(@users)
   end
 
   def update
     @department = Department.find(params[:id])
     current_leader = @department.user_id
     if @department.update(name: params['department']['name'], user_id: params['department']['user_id'])
-      if add_user_department(params['department']['user_id'])
-        if update_role_PM(params['department']['user_id'])
-          return_role(current_leader)
-          redirect_to action: :index
-        end
-      end
+      redirect_to root_path
+    else
+      render :edit
     end
   end
 
