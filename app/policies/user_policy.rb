@@ -9,4 +9,9 @@ class UserPolicy < ApplicationPolicy
   def index?
     user.information.admin? || user.information.hr?
   end
+
+  def new?
+    user.information.admin?
+  end
+
 end

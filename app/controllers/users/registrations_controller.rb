@@ -3,13 +3,12 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  before_action :IsAdmin?
   skip_before_action :require_no_authentication, only: [:new]
 
   # GET /resource/sign_up
   def new
+    authorize User.none, :new?
     super do |resource|
-      @roles = Role.where('id != 1 and id != 3')
     end
 
   end
@@ -67,10 +66,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super(resource)
   end
 
-  def IsAdmin?
-    if current_user.information.admin?
-    else
-      redirect_to '/'
-    end
-  end
 end
