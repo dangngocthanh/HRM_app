@@ -2,10 +2,10 @@
 <div class="row">
   <p style="color: #2f9bcd" class="col-6">Project have <%= @users.length %> member</p>
   <% if current_user.information.admin? || current_user.information.pm? %>
-    <div style="margin-left: 54%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-check-circle-o" aria-hidden="true"></i>
- Done project'), done_project_path(:id => @project.id), class: 'btn btn-success' %></div>
+    <div style="margin-left: 59%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-check-circle-o" aria-hidden="true"></i>
+ Done'), done_project_path(:id => @project.id), class: 'btn btn-success' %></div>
     <div style="margin-left: 67%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-exchange" aria-hidden="true"></i>
- Change leader'), change_leader_path(:id => @project.id), class: 'btn btn-success' %></div>
+ Change leader'), change_leader_path(:id => @project.id), class: 'btn btn-warning' %></div>
     <div style="margin-left: 81%; margin-top: -4%" class="col-6"><%= link_to raw('<i class="fa fa-user-plus" aria-hidden="true"></i>
  Add user to project'), edit_users_project_path(@project.id), class: 'btn btn-success' %></div>
   <% end %>

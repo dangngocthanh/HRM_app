@@ -15,7 +15,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def create?
-
+    user.information.admin?
   end
 
   def users_projects_detail?
@@ -23,15 +23,15 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def change_leader?
-    user.information.admin? || user.information.pm?
+    user.information.admin? || user == @project.pm
   end
 
-  def update_leader
-    user.information.admin?
+  def update_leader?
+    user.information.admin? || user == @project.pm
   end
 
   def done_project?
-    user.information.admin? || user.information.pm?
+    user.information.admin? || user == @project.pm
   end
 
   def destroy?
@@ -40,6 +40,10 @@ class ProjectPolicy < ApplicationPolicy
 
   def all_project?
     user.information.admin? || user.information.hr?
+  end
+
+  def pm?
+
   end
 
 end

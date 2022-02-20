@@ -4,8 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :users_projects
-  has_many :projects
+  has_many :projects, through: :users_projects
+
   has_one :information
+
   has_one :users_department
   has_one :department, through: :users_department
 
