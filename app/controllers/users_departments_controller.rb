@@ -2,22 +2,17 @@ class UsersDepartmentsController < ApplicationController
   layout "dashboard"
 
   def new
-    @departments = Department.all
-    @users = Information.where(has_department: false).where('role_id !=1 and role_id !=2')
-    @users = RoleToUser(@users)
+    @department = Department.find(params[:id])
+    @users = @department.free_user
     @users_department = UsersDepartment.new
     authorize @users_department
   end
 
   def create
-    if UsersDepartment.where(user_id: params['users_department']['user_id']).blank?
-      @users_department = UsersDepartment.new(user_id: params['users_department']['user_id'], department_id: params['users_department']['department_id'])
-      if @users_department.save
-        @user = Information.where(user_id: params['users_department']['user_id'])
-        @user.update(has_department: true)
-      end
+    if User.find(params['users_department']['user_id']).department.nil?
+      UsersDepartment.create(user_id: params['users_department']['user_id'], department_id:  params['department_id'])
     end
-    redirect_to department_path(params['users_department']['department_id'])
+    redirect_to department_path(params['department_id'])
   end
 
   def destroy

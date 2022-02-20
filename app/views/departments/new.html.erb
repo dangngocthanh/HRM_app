@@ -1,4 +1,8 @@
-<%#=render "layouts/navbar" %>
-<% provide(:button_text, 'Add department') %>
 <h1>Add New Department</h1>
-<%= render 'form' %>
+<%= form_with(model: @department, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control col-md-7' %>
+  </div>
+  <%= f.submit 'Add department', class: "btn btn-primary" %>
+<% end %>

@@ -7,11 +7,11 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def index?
-    user.information.admin?
+    user.information.admin? || user.information.hr?
   end
 
   def show?
-    user.information.admin? || user.information.hr? || current_user.department.id == params[:id]
+    user.information.admin? || user.information.hr? || department.users.exists?(id: user.id)
   end
 
   def new?

@@ -7,12 +7,17 @@ class User < ApplicationRecord
   has_many :projects
   has_one :information
   has_one :users_department
-  has_one :department
+  has_one :department, through: :users_department
+
 
   accepts_nested_attributes_for :information
 
   def with_information
     build_information if information.nil?
     self
+  end
+
+  def free?
+    department.blank?
   end
 end
