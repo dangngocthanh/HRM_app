@@ -8,13 +8,13 @@
     <th>#</th>
     <th>Name</th>
     <th>Email</th>
-    <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+    <% if policy(@department).information? %>
       <th>Address</th>
       <th>Phone</th>
       <th>Date of Birth</th>
     <% end %>
     <th>role</th>
-    <% if current_user.information.admin? || current_user.information.pm? %>
+    <% if policy(@department).operation? %>
       <th colspan="2">Operation</th>
     <% end %>
 
@@ -24,15 +24,16 @@
         <td><%= index + 1 %></td>
         <td><%= user.information.name %></td>
         <td><%= user.email %></td>
-        <% if current_user.information.admin? || current_user.information.pm? || current_user.information.hr? %>
+        <% if policy(@department).information? %>
           <td><%= user.information.address %></td>
           <td><%= user.information.phone %></td>
           <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
         <% end %>
-        <td><%= user.information.role_id %></td>
+        <td><%= user.information.role %></td>
 
-        <% if current_user.information.admin? || current_user.information.pm? %>
-          <% if user.information.pm? %>
+        <% if policy(@department).operation?  %>
+          <% if policy(@department).pm? %>
+          <td></td>
           <% else %>
             <td><%= link_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>

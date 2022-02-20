@@ -23,4 +23,8 @@ class Department < ApplicationRecord
     return if users.exists?(id: user_id)
     errors.add(:user_id, "can thuoc danh sach users")
   end
+
+  def pm
+    project_manager
+  end
 end

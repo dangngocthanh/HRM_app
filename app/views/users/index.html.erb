@@ -20,12 +20,12 @@
       <td><%= user.email %></td>
       <td><%= user.information.address %></td>
       <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
-      <% if user.information.has_department == true && user.information.role_id != 1 %>
+      <% if user.information.has_department == true && user.information.role != 1 %>
         <td><%= Department.find(user.users_department.department_id).name %></td>
         <%else %>
         <td>No department</td>
       <% end %>
-      <td><%= user.information.role_id %></td>
+      <td><%= user.information.role %></td>
     </tr>
   <% end %>
 </table>

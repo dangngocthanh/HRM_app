@@ -10,7 +10,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     authorize User.none, :new?
     super do |resource|
     end
-
   end
 
   # POST /resource
