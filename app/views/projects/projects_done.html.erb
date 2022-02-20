@@ -4,9 +4,7 @@
   <th>Name project</th>
   <th>Name leader</th>
   <th>Time assign</th>
-  <% if policy(@projects).done_project? %>
-    <th colspan="2">Action</th>
-  <% end %>
+  <th colspan="2">Action</th>
   </thead>
   <% @projects.each do |project| %>
     <tr>

@@ -8,7 +8,7 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 
-  def pm
+  def pm_dp
     department.pm
   end
 

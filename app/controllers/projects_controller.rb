@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
     if user.information.admin? || user.information.hr?
       @projects = Project.all.where(status: false)
     else
-      @projects = [current_user.projects].where(status: false)
+      @projects = current_user.projects.where(status: false)
     end
   end
 
@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
     if user.information.admin? || user.information.hr?
       @projects = Project.all.where(status: true)
     else
-      @projects = [current_user.projects].where(status: true)
+      @projects = current_user.projects.where(status: true)
     end
   end
 
@@ -54,6 +54,9 @@ class ProjectsController < ApplicationController
 
   def done_project
     @project = Project.find(params[:id])
+
+    authorize @project
+
     @project.update(status: true)
     @project.save
     redirect_to action: :changeStatus

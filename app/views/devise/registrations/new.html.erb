@@ -44,10 +44,10 @@
       <%= ui.text_field :phone, class: "form-control col-md-4" %>
     </div>
 
-    <select name="role">
-      <option value="2">HR</option>
-      <option value="3">Employee</option>
-    </select>
+    <div class="form-field">
+      <%= ui.label :role %>
+      <%= ui.select :role, options_for_select([["hr","hr"], ["employee",'employee']]),{}, class: "form-control col-md-4"%>
+    </div>
 
   <% end %>
 

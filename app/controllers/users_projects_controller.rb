@@ -9,21 +9,7 @@ class UsersProjectsController < ApplicationController
   def show
     @users = []
     @project = Project.find(params[:id])
-    if current_user.information.admin? || current_user.information.hr?
-      @users = UsersProject.where(project_id: params[:id])
-    else
-      if current_user.information.pm?
-        department_id = Department.where(user_id: current_user.id)[0].id
-        @projects = Project.find(params[:id])
-        if department_id == @projects.department_id
-          @users = UsersProject.where(project_id: params[:id])
-        end
-      else
-        if UsersProject.where(project_id: params[:id], user_id: current_user.id)
-          @users = UsersProject.where(project_id: params[:id])
-        end
-      end
-    end
+    @users = @project.users_projects
   end
 
   def edit
@@ -43,7 +29,7 @@ class UsersProjectsController < ApplicationController
       end
     end
     @users = RoleToUser(@users)
-    authorize @users_in_project
+    authorize @project
   end
 
   def update

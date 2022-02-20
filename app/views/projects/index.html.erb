@@ -28,7 +28,7 @@
     <th>Name project</th>
     <th>Name leader</th>
     <th>Time assign</th>
-    <% if policy(@projects).done_project? %>
+    <% if policy(@projects[0]).done_project? %>
       <th colspan="2">Action</th>
     <% end %>
     </thead>
