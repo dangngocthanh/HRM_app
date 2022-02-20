@@ -5,11 +5,7 @@
     <%= f.select :user_id, options_for_select(@users.map{|user| [user.email, user.id] }),{}, class: "form-control col-md-7"%>
   </div>
 
-  <div>
-    <%= f.label :department_id %>
-    <%= f.select :department_id, options_for_select(@departments.map { |department| [department.name, department.id] }), {}, class: 'form-control col-md-7' %>
-
-  </div>
+  <input type="hidden" name="department_id" value="<%= @department.id %>">
 
   <%= f.submit yield(:button_text), class: "btn btn-primary mt-2" %>
 <% end %>
