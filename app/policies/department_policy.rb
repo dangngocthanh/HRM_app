@@ -7,7 +7,7 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def index?
-    user.information.admin? || user.information.hr?
+
   end
 
   def show?
@@ -32,5 +32,17 @@ class DepartmentPolicy < ApplicationPolicy
 
   def destroy?
     user.information.admin?
+  end
+
+  def information?
+    user.information.admin? || user == @department.pm || user.information.hr?
+  end
+
+  def operation?
+    user.information.admin? || user == @department.pm
+  end
+
+  def pm?
+    user == @department.pm
   end
 end

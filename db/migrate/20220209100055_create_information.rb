@@ -6,10 +6,8 @@ class CreateInformation < ActiveRecord::Migration[7.0]
       t.string :address
       t.datetime :date_of_birth
       t.string :phone
-      t.boolean :has_department, default: false
-      t.bigint :role_id
+      t.bigint :role
       t.foreign_key :users, index: true, foreign_key: true
-      t.foreign_key :roles, index: true, foreign_key: true
       t.timestamps
     end
   end
