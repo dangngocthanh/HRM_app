@@ -6,7 +6,7 @@ class Department < ApplicationRecord
   has_many :users, through: :users_departments
 
   validates :name, uniqueness: true, presence: true
-  validate :pm_user_validation, on: :update
+  # validate :pm_user_validation, on: :update
 
   def maybe_pm_users
     User.where(id: users.ids)
@@ -20,10 +20,10 @@ class Department < ApplicationRecord
     User.where.not(id: UsersDepartment.select(:user_id))
   end
 
-  def pm_user_validation
-    return if users.exists?(id: user_id)
-    errors.add(:user_id, "can thuoc danh sach users")
-  end
+  # def pm_user_validation
+  #   return if users.exists?(id: user_id)
+  #   errors.add(:user_id, "can thuoc danh sach users")
+  # end
 
   def pm
     project_manager

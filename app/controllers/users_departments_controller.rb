@@ -16,6 +16,7 @@ class UsersDepartmentsController < ApplicationController
   end
 
   def destroy
+
     user = User.find(params[:id])
 
     user.projects.where(user_id: user.id, status: false).update(user_id: nil)
