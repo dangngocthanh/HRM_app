@@ -1,5 +1,6 @@
 class Department < ApplicationRecord
   belongs_to :project_manager, foreign_key: :user_id, class_name: User.to_s, optional: true
+
   has_many :projects
   has_many :users_departments
   has_many :users, through: :users_departments
