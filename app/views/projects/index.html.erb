@@ -34,9 +34,12 @@
     </thead>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= link_to project.name, users_project_path(project) %>
-        <td><%= User.find(project.user_id).email %></td>
-        </td>
+        <td><%= link_to project.name, users_project_path(project) %></td>
+        <% if project.user.nil? %>
+          <td style="color: red;">No leader</td>
+        <% else %>
+          <td><%= project.user.information.name %></td>
+        <% end %>
         <td>
           <div><%= project.created_at.strftime("%d/%m/%Y") %></div>
         </td>

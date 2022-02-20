@@ -6,9 +6,18 @@ class ProjectsController < ApplicationController
   def index
     user = current_user
     if user.information.admin? || user.information.hr?
-      @projects = Project.all
+      @projects = Project.all.where(status: false)
     else
-      @projects = [current_user.projects]
+      @projects = [current_user.projects].where(status: false)
+    end
+  end
+
+  def projects_done
+    user = current_user
+    if user.information.admin? || user.information.hr?
+      @projects = Project.all.where(status: true)
+    else
+      @projects = [current_user.projects].where(status: true)
     end
   end
 
