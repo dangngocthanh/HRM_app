@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   layout "dashboard"
   def edit
+
   end
 
   def update

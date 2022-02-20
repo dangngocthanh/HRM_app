@@ -1,25 +1,43 @@
-<h2>Thông tin cá nhân</h2>
-
-<%= form_with(model: @profile, url: profile_path(@profile), local: true, method: :put) do |f| %>
-  <div class="mb-3">
-    <%= f.label :name, class: "form-label" %>:
-    <%= f.text_field :name, value: current_user.information.name ,class: 'form-control col-md-4' %>
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-3 border-right">
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+        <img class="rounded-circle mt-5" src="https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg"><span class="font-weight-bold">Amelly</span><span class="text-black-50">amelly12@bbb.com</span><span> </span>
+      </div>
+    </div>
+    <div class="col-md-5 border-right">
+      <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-right">Edit Profile</h4>
+        </div>
+        <%= form_with(model: @profile, url: profile_path(@profile), local: true, method: :put) do |f| %>
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <%= f.label :name, class: "form-label" %>:
+              <%= f.text_field :name, value: current_user.information.name ,class: 'form-control' %>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <%= f.label :address, class: "form-label"  %>:
+              <%= f.text_field :address, value: current_user.information.address, class: 'form-control' %>
+            </div>
+            <div class="col-md-12">
+              <%= f.label :phone, class: "form-label"  %>:
+              <%= f.text_field :phone, value: current_user.information.phone, class: 'form-control ' %>
+            </div>
+            <div class="col-md-12">
+              <%= f.label :date_of_birth, class: "form-label"  %>:
+              <%= f.date_field :date_of_birth, value: current_user.information.date_of_birth, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="mt-5 text-center">
+            <%= f.submit 'Save information', class: "btn btn-primary mt-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <%= f.label :address, class: "form-label"  %>:
-    <%= f.text_field :address, value: current_user.information.address, class: 'form-control col-md-4'%>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :phone, class: "form-label"  %>:
-    <%= f.text_field :phone, value: current_user.information.phone, class: 'form-control col-md-4' %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :date_of_birth, class: "form-label"  %>:
-    <%= f.date_field :date_of_birth, value: current_user.information.date_of_birth, class: 'form-control col-md-4' %>
-  </div>
-
-  <%= f.submit 'Update information', class: "btn btn-primary mt-2" %>
-<% end %>
+</div>
+</div>
+</div>
