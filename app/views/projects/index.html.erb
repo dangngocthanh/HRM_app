@@ -1,11 +1,11 @@
 <% if @projects.blank? %>
   <h3 style="text-align: center">You dont't have project</h3>
-  <% if current_user.information.admin? %>
+  <% if policy(@projects).new? %>
     <%= link_to raw('<i class="fa fa-refresh" aria-hidden="true"></i>
  Add new projects'), new_project_path, class: 'btn btn-success' %>
   <% end %>
 <% else %>
-  <% if current_user.information.pm? || current_user.information.employee? %>
+  <% if policy(@projects).all_project?  %>
     <h2><%= Department.find(@department_id).name %>'s projects</h2>
   <% else %>
     <h2> All projects</h2>

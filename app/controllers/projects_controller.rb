@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
         @department_id = department_id[0].department_id
         @projects = Project.where(department_id: @department_id)
       else
-        if user.information.admin? || user.information.hr?
+        if policy(@projects).all_project?
           @projects = Project.all
         end
       end

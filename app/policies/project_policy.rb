@@ -11,7 +11,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def new?
-
+    user.information.admin?
   end
 
   def create?
@@ -36,6 +36,10 @@ class ProjectPolicy < ApplicationPolicy
 
   def destroy?
     user.information.admin?
+  end
+
+  def all_project?
+    user.information.admin? || user.information.hr?
   end
 
 end
