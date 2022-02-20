@@ -7,7 +7,7 @@ class DepartmentPolicy < ApplicationPolicy
   end
 
   def index?
-    user.information.admin? || user.information.hr?
+
   end
 
   def show?

@@ -3,7 +3,8 @@ class DepartmentsController < ApplicationController
   layout "dashboard"
 
   def index
-    if authorize Department.none
+    user = current_user
+    if user.information.admin? || user.information.hr?
       @departments = Department.all
     else
       @departments = [current_user.department]
