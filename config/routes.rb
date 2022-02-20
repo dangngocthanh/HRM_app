@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'restart_project' => 'projects#restart_project'
       get 'click' => 'departments#click'
       get 'changeStatus' => 'projects#changeStatus'
+      get 'projects_done' => 'projects#projects_done'
     end
 
     unauthenticated do

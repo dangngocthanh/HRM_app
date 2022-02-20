@@ -18,4 +18,7 @@ class UsersDepartmentPolicy < ApplicationPolicy
 
   end
 
+  def all_project?
+    user.information.admin? || user.information.hr?
+  end
 end

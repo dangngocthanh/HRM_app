@@ -1,56 +1,27 @@
-<div class="container rounded bg-white mt-5 mb-5">
-  <div class="row">
-    <div class="col-md-3 border-right">
-      <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-        <img class="rounded-circle mt-5" src="https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg"><span class="font-weight-bold"><%= current_user.information.name %></span><span class="text-black-50"><%= User.find(current_user.information.user_id).email %></span><span> </span>
-      </div>
-    </div>
-    <div class="col-md-5 border-right">
-      <div class="p-3 py-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="text-right">My Profile</h4>
-        </div>
-        <div class="row mt-2">
-          <div class="col-md-12">
-            <label class="labels">Name</label>
-            <input type="text" class="form-control" placeholder="first name" value="<%= current_user.information.name %>" disabled>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-12">
-            <label class="labels">Email</label>
-            <input type="text" class="form-control" placeholder="enter phone number" value="<%= User.find(current_user.information.user_id).email %>" disabled>
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Role</label>
-            <input type="text" class="form-control" placeholder="enter address" value="<%= current_user.information.role %>" disabled>
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Birthday</label>
-            <input type="text" class="form-control" placeholder="enter email id" value="<%= current_user.information.date_of_birth.strftime("%d/%m/%Y") %>" disabled>
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Address</label>
-            <input type="text" class="form-control" placeholder="education" value="<%= current_user.information.address %>" disabled>
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Phone</label>
-            <input type="text" class="form-control" placeholder="education" value="<%= current_user.information.phone %>" disabled>
-          </div>
-          <div class="col-md-12">
-            <label class="labels">On Board</label>
-            <input type="text" class="form-control" placeholder="education" value="<%= current_user.information.created_at.strftime("%d/%m/%Y") %>" disabled>
-          </div>
-        </div>
-        <div class="mt-5 text-center">
-          <%= button_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">-->
+<h2>My profile</h2>
+<strong>Name: </strong> <%= current_user.information.name %><br/>
+<strong>Email: </strong> <%= User.find(current_user.information.user_id).email %><br/>
+<!--<strong>Role: </strong> <%#= current_user.information.3 %><br/>-->
+<strong>Birthday: </strong> <%= current_user.information.date_of_birth.strftime("%d/%m/%Y") %><br/>
+<strong>Address: </strong> <%= current_user.information.address %><br/>
+<strong>Phone: </strong> <%= current_user.information.phone %><br/>
+<strong>On Board: </strong> <%= current_user.information.created_at.strftime("%d/%m/%Y") %><br/>
+<%= button_to raw('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
 </svg> Edit information'), edit_profile_path(current_user.id), :method => :get, class: "btn btn-primary" %>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
+
+
+<h2>My profile</h2>
+<table class="table">
+  <thead class="thead-dark">
+    <th>Name</th>
+    <th>Email</th>
+    <th>Birthday</th>
+    <th>Adrress</th>
+    <th>Phone</th>
+    <th>On Board</th>
+  </thead>
+</table>
+
+

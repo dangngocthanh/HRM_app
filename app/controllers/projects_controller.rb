@@ -5,28 +5,19 @@ class ProjectsController < ApplicationController
 
   def index
     user = current_user
-    @projects = []
-    if user.information.employee?
-      @projects_ids = UsersProject.where(user_id: user.id)
-      if @projects_ids.blank?
-        @department_id = nil
-      else
-        @projects_ids.each do |project|
-          @projects.push(Project.find(project.project_id))
-        end
-        department_id = UsersDepartment.where(user_id: current_user.id)
-        @department_id = department_id[0].department_id
-      end
+    if user.information.admin? || user.information.hr?
+      @projects = Project.all.where(status: false)
     else
-      if user.information.pm?
-        department_id = UsersDepartment.where(user_id: current_user.id)
-        @department_id = department_id[0].department_id
-        @projects = Project.where(department_id: @department_id)
-      else
-        if policy(@projects).all_project?
-          @projects = Project.all
-        end
-      end
+      @projects = [current_user.projects].where(status: false)
+    end
+  end
+
+  def projects_done
+    user = current_user
+    if user.information.admin? || user.information.hr?
+      @projects = Project.all.where(status: true)
+    else
+      @projects = [current_user.projects].where(status: true)
     end
   end
 
@@ -51,24 +42,14 @@ class ProjectsController < ApplicationController
   end
 
   def change_leader
-    @project_id = params[:id]
-    @project = Project.find(@project_id)
+    @project = Project.find(params[:id])
     authorize @project
-    session[:project_update_id] = @project_id
-    @users = UsersDepartment.where(department_id: @project.department_id)
-    @leader = []
-    project = Project.find(params[:id])
-    @current_leader = User.find(project.user_id)
-    @users.each do |user|
-      @leader.push(User.where(id: user.user_id)[0])
-    end
   end
 
   def update_leader
-    @project_change = Project.find(session[:project_update_id])
+    @project_change = Project.find(params[:id])
     @project_change.update(user_id: params[:user_id])
-    add_user_to_users_projects(params[:user_id], params[:id])
-    redirect_to users_project_path(params[:id])
+    redirect_to change_leader_path(params[:id])
   end
 
   def done_project
@@ -104,13 +85,6 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     if @project.status == true
       redirect_to action: :index
-    end
-  end
-
-  def add_user_to_users_projects(user_id, project_id)
-    if UsersProject.where(user_id: user_id, project_id: project_id).blank?
-      @users_department = UsersProject.new(project_id: project_id, user_id: user_id)
-      @users_department.save
     end
   end
 

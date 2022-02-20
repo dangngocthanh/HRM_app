@@ -16,25 +16,17 @@ class UsersDepartmentsController < ApplicationController
   end
 
   def destroy
-    id = params[:id]
-    if User.find(id).information.pm?
-    else
-      @users_projects = UsersProject.where(user_id: id)
-      @users_projects.each do |users_projects|
-        if Project.find(users_projects.project_id).status == false
-          UsersProject.destroy(users_projects.id)
-          project = Project.find(users_projects.project_id)
-          if project.user_id == id
-            pm_id = Department.find(project.department_id).user_id
-            project.update(user_id: pm_id)
-          end
-        end
-      end
-      @users = UsersDepartment.where(user_id: id)
-      UsersDepartment.destroy(@users[0].id)
-      information = Information.where(user_id: id)
-      information[0].update(has_department: false)
+    user = User.find(params[:id])
+
+    user.projects.where(user_id: user.id, status: false).update(user_id: nil)
+
+    UsersProject.delete(UsersProject.where(project_id: user.projects.where(status: false).ids, user_id: user.id).ids)
+
+    if user.department.user_id == user.id
+      user.department.update(user_id: nil)
     end
+    UsersDepartment.delete(UsersDepartment.where(user_id: params[:id]).ids)
+
   end
 
   def show

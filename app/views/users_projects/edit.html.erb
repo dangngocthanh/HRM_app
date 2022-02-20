@@ -5,7 +5,11 @@
   <div>
     <p>Name project: <%= @project.name %></p>
     <p>Created at: <%= @project.created_at.strftime("%d/%m/%Y") %></p>
-    <p>Leader: <%= User.find(@project.user_id).information.name %></p>
+    <% if @project.user_id.nil? %>
+
+    <% else %>
+      <p>Leader: <%= User.find(@project.user_id).information.name %></p>
+    <% end %>
     <p>Members: <%= @users_in_project.length %></p>
   </div>
 

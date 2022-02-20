@@ -1,7 +1,7 @@
 <h2>Employee list</h2>
 <% if current_user.information.admin? %>
   <%= link_to raw('<i class="fa fa-user-plus" aria-hidden="true"></i>
- Add new user'), new_user_registration_path , class: 'btn btn-primary mb-2'%><br/>
+ Add new user'), new_user_registration_path, class: 'btn btn-primary mb-2' %><br/>
 <% end %>
 <table class="table">
   <thead class="thead-dark">
@@ -20,12 +20,20 @@
       <td><%= user.email %></td>
       <td><%= user.information.address %></td>
       <td><%= user.information.date_of_birth.strftime("%d/%m/%Y") %></td>
-      <% if user.information.has_department == true && user.information.role != 1 %>
-        <td><%= Department.find(user.users_department.department_id).name %></td>
-        <%else %>
+      <% if user.department.blank? %>
         <td>No department</td>
+      <% else %>
+        <td><%= Department.find(user.users_department.department_id).name %></td>
       <% end %>
-      <td><%= user.information.role %></td>
+      <% if user.information.admin? %>
+        <td style="color: red"><%= user.information.role %></td>
+      <% else %>
+        <% if user.information.hr? %>
+          <td style="color: #1465e0"><%= user.information.role %></td>
+        <% else %>
+          <td><%= user.information.role %></td>
+        <% end %>
+      <% end %>
     </tr>
   <% end %>
 </table>
